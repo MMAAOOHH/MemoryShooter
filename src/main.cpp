@@ -27,11 +27,12 @@ public:
         {
             window = SDL_CreateWindow(NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
             renderer = SDL_CreateRenderer(window, -1, 0);
-            SDL_SetRenderDrawColor(renderer, 0, 10, 10, 255);
+            SDL_SetRenderDrawColor(renderer, 0, 25, 25, 255);
             is_running = true;
         }
         else
         {
+            std::cout << "SDL init failed" << std::endl;
             is_running = false;
         }
     }
@@ -69,12 +70,51 @@ private:
     }
 };
 
+struct Vec2
+{
+    float x, y;
+};
+struct Vec3
+{
+    float x, y, z;
+};
+
+struct Entity
+{
+    unsigned int id;
+};
+
+class Entity_Manager
+{
+public:
+    Entity create()
+    {
+        last_id++;
+        return { last_id };
+    }
+    void destroy(Entity e); // how to destroy entities
+private:
+    unsigned int last_id = 0;
+};
+
+struct Component_Mask
+{
+    unsigned int mask = 0;
+
+    void add_component();
+    void remove_component();
+    bool matches();
+};
+
+class World
+{
+	
+};
 int main(int argc, char* argv[])
 {
-    auto game = std::make_unique<Game>();
-    game->init(NAME, SCREEN_WIDTH, SCREEN_HEIGHT);
-    game->run();
-    game->clean();
-
+    auto awesome = std::make_unique<Game>();
+    awesome->init(NAME, SCREEN_WIDTH, SCREEN_HEIGHT);
+    awesome->run();
+    awesome->clean();
 	return 0;
 }
