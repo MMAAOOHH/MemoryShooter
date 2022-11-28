@@ -80,15 +80,6 @@ struct TestComponent : public ECS::Component
 
 int main(int argc, char* argv[])
 {
-    ECS::EntityManager manager;
-    auto id1 = manager.add_new_entity();
-    auto id2 = manager.add_new_entity();
-    auto id3 = manager.add_new_entity();
-
-    auto type_id = ECS::component_type<TestComponent>();
-    std::cout << id1 << " " <<  id2 << " " << id3 << " " << type_id << std::endl;
-
-
     auto const awesome = std::make_unique<Game>();
     awesome->init(NAME, SCREEN_WIDTH, SCREEN_HEIGHT);
     awesome->run();

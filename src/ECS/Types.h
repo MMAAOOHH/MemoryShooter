@@ -42,7 +42,7 @@ namespace ECS
 	inline static const System_Type_ID system_type() noexcept
 	{
 		static_assert((std::is_base_of<System, T>::value && !std::is_same<System, T>::value), "INVALID TEMPLATE TYPE");
-		static const System_Type_ID type_id = get_runtime_comp_type_id();
+		static const System_Type_ID type_id = get_runtime_system_type_id();
 		return type_id;
 	}
 }
