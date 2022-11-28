@@ -144,6 +144,14 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ECS\Component.h" />
+    <ClInclude Include="src\ECS\ComponentList.h" />
+    <ClInclude Include="src\ECS\ECS.h" />
+    <ClInclude Include="src\ECS\EntityManager.h" />
+    <ClInclude Include="src\ECS\System.h" />
+    <ClInclude Include="src\ECS\Types.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

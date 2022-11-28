@@ -1,6 +1,9 @@
 #include <iostream>
 #include <SDL/SDL.h>
 
+#include "ECS/Types.h"
+#include "ECS/EntityManager.h"
+
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char* NAME = "MemoryShooter";
@@ -70,49 +73,23 @@ private:
     }
 };
 
-struct Vec2
-{
-    float x, y;
-};
-struct Vec3
-{
-    float x, y, z;
-};
-
-struct Entity
-{
-    unsigned int id;
-};
-
-class Entity_Manager
-{
-public:
-    Entity create()
-    {
-        last_id++;
-        return { last_id };
-    }
-    void destroy(Entity e); // how to destroy entities
-private:
-    unsigned int last_id = 0;
-};
-
-struct Component_Mask
-{
-    unsigned int mask = 0;
-
-    void add_component();
-    void remove_component();
-    bool matches();
-};
-
-class World
+struct TestComponent : public ECS::Component
 {
 	
 };
+
 int main(int argc, char* argv[])
 {
-    auto awesome = std::make_unique<Game>();
+    ECS::EntityManager manager;
+    auto id1 = manager.add_new_entity();
+    auto id2 = manager.add_new_entity();
+    auto id3 = manager.add_new_entity();
+
+    auto type_id = ECS::component_type<TestComponent>();
+    std::cout << id1 << " " <<  id2 << " " << id3 << " " << type_id << std::endl;
+
+
+    auto const awesome = std::make_unique<Game>();
     awesome->init(NAME, SCREEN_WIDTH, SCREEN_HEIGHT);
     awesome->run();
     awesome->clean();
