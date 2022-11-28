@@ -131,7 +131,7 @@ namespace ECS
 			auto system = std::make_shared<T>();
 
 			// add entity to new system
-			for (Entity_ID entity = 0u; entity < entity_count; entity++)
+			for (Entity_ID entity = 0; entity < entity_count; entity++)
 			{
 				add_entity_to_system(entity, system.get());
 			}
@@ -144,7 +144,7 @@ namespace ECS
 		void unregister_system()
 		{
 			const System_Type_ID sys_type = system_type<T>();
-			assert(registered_systems.count(sys_type) == 0 && "System already registered!");
+			assert(registered_systems.count(sys_type) == 0 && "System not registered!");
 			registered_systems.erase(sys_type);
 		}
 
@@ -174,7 +174,7 @@ namespace ECS
 		
 		void add_entity_signature(const Entity_ID entity)
 		{
-			assert(entities_signatures.find(entity) != entities_signatures.end() && "Signature not found!");
+			assert(entities_signatures.find(entity) == entities_signatures.end() && "Signature not found!");
 			entities_signatures[entity] = std::move(std::make_shared<Entity_Signature>());
 		}
 
@@ -212,7 +212,7 @@ namespace ECS
 					return false;
 				}
 			}
-			return false;
+			return true;
 		}
 
 	private:
@@ -220,7 +220,7 @@ namespace ECS
 		std::queue<Entity_ID> available_entities;
 		std::map<Entity_ID, std::shared_ptr<Entity_Signature>> entities_signatures;
 		//std::map<Entity_ID, Entity_Signature> entities_signatures;
-		std::map<System_Type_ID, std::unique_ptr<System>> registered_systems;
+		std::map<System_Type_ID, std::shared_ptr<System>> registered_systems;
 		std::map<Component_Type_ID, std::shared_ptr<IComponentList>> components_array;
 	};
 }

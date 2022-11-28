@@ -30,7 +30,15 @@ namespace ECS
 		}
 
 		virtual void start() {}
-		virtual void update() {}
+		virtual void update()
+		{
+			std::cout << "System " << &signature << " has entities: ";
+			for(auto i : entities)
+			{
+				std::cout << i << " ";
+			}
+			std::cout << std::endl;
+		}
 		virtual void render() {}
 		virtual void destroy() {}
 
