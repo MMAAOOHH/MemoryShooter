@@ -1,13 +1,17 @@
 #include <iostream>
 #include <SDL/SDL.h>
+#include <chrono>
 
-#include "ECS/Types.h"
 #include "ECS/EntityManager.h"
+#include "ECS/Component.h"
 #include "ECS/Entity.h"
+#include "ECS/Systems/SpriteRenderSystem.h"
+
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char* NAME = "MemoryShooter";
+
 
 class Game
 {
@@ -27,6 +31,7 @@ public:
 
     void init(const char* name, int width, int height)
     {
+        // Initilize SDL
         if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
         {
             window = SDL_CreateWindow(NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -39,6 +44,33 @@ public:
             std::cout << "SDL init failed" << std::endl;
             is_running = false;
         }
+
+
+
+        // Register systems
+
+        auto start = std::chrono::steady_clock::now();
+        ////////////
+        // ECS test
+
+        ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
+        auto entity2 = ECS::EntityManager::get_instance().add_new_entity();
+
+
+        ECS::EntityManager::get_instance().add_component<ECS::Transform>(entity2);
+        //ECS::EntityManager::get_instance().get_component<ECS::Transform>(entity2);
+
+
+
+        ECS::EntityManager::get_instance().add_component<ECS::Sprite>(entity2, renderer);
+
+
+        auto end = std::chrono::steady_clock::now();
+        std::cout << "Start to end took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms.\n";
+
+
+
+        // 
     }
     void clean()
     {
@@ -53,6 +85,7 @@ private:
     SDL_Renderer* renderer;
     bool is_running = false;
 
+
     void handle_events()
     {
         SDL_Event event;
@@ -64,12 +97,14 @@ private:
     }
     void update()
     {
-	    // do stuff
+        ECS::EntityManager::get_instance().update();
     }
     void render()
     {
         SDL_RenderClear(renderer);
         // render stuff
+        ECS::EntityManager::get_instance().render();
+
         SDL_RenderPresent(renderer);
     }
 };
@@ -110,37 +145,17 @@ struct TestSystemC : public ECS::System
         add_component_signature<TestComponentA>();
         add_component_signature<TestComponentB>();
     }
-    
 };
+
+
 
 
 int main(int argc, char* argv[])
 {
+
+
+
     ////////////
-    // ECS test
-    ////////////
-    ECS::EntityManager manager;
-
-    manager.register_system<TestSystemA>();
-    manager.register_system<TestSystemB>();
-    manager.register_system<TestSystemC>();
-
-    auto entity1 = manager.add_new_entity();
-
-    ECS::Entity ent(entity1, &manager);
-    ent.add_component<TestComponentA>();
-
-    auto entity2 = manager.add_new_entity();
-    manager.add_component<TestComponentB>(entity2);
-
-    auto entity3 = manager.add_new_entity();
-    manager.add_component<TestComponentA>(entity3);
-    manager.add_component<TestComponentB>(entity3);
-
-    manager.update();
-    ////////////
-
-
     auto const awesome = std::make_unique<Game>();
     awesome->init(NAME, SCREEN_WIDTH, SCREEN_HEIGHT);
     awesome->run();

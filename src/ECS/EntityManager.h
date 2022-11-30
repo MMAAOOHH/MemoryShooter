@@ -5,7 +5,6 @@
 #include <queue>
 
 #include "Types.h"
-#include "Component.h"
 #include "ComponentList.h"
 #include "System.h"
 
@@ -13,63 +12,46 @@ namespace ECS
 {
 	class EntityManager
 	{
-	public:
+	private:
+
 		EntityManager(): entity_count(0)
 		{
+			// "Pool of entities", in a continuous block of memory
 			for (Entity_ID entity = 0u; entity < MAX_ENTITY_COUNT; entity++)
 			{
 				available_entities.push(entity);
 			}
 		}
-		~EntityManager()
+
+	public:
+
+		// delete copy constructor
+		EntityManager(const EntityManager&) = delete;
+
+		//singleton
+		static EntityManager& get_instance()
 		{
-			
+			static EntityManager instance;
+			return instance;
 		}
 
-		void update()
-		{
-			for (auto& system : registered_systems)
-			{
-				system.second->update();
-			}
-		}
+		~EntityManager(){}
 
-		void render()
-		{
-			for (auto& system : registered_systems)
-			{
-				system.second->render();
-			}
-		}
+		void update();
+		void render();
+		const Entity_ID add_new_entity();
+		void destroy_entity(const Entity_ID entity);
 
-		const Entity_ID add_new_entity()
-		{
-			const Entity_ID entity = available_entities.front();
-			add_entity_signature(entity);
-			available_entities.pop();
-			entity_count++;
-			return entity;
-		}
+	private:
+		void add_entity_signature(const Entity_ID entity);
+		std::shared_ptr<Entity_Signature> get_entity_signature(const Entity_ID entity);
+		void update_entity_target_systems(const Entity_ID entity);
+		void add_entity_to_system(const Entity_ID entity, System* system);
+		bool belongs_to_system(const Entity_ID entity, const Entity_Signature& system_signature);
 
-		void destroy_entity(const Entity_ID entity)
-		{
-			assert(entity < MAX_ENTITY_COUNT && "Entity ID out of range!");
-			entities_signatures.erase(entity);
+#pragma region Templates
 
-			for (auto& array : components_array)
-			{
-				array.second->erase(entity);
-			}
-
-			for (auto& system : registered_systems)
-			{
-				system.second->remove_entity(entity);
-			}
-
-			entity_count--;
-			available_entities.push(entity);
-		}
-
+	public:
 		template<typename T, typename... Args>
 		void add_component(const Entity_ID entity, Args&&... args)
 		{
@@ -98,17 +80,17 @@ namespace ECS
 			//entities_signatures.at(entity).erase(comp_type);
 
 			get_component_list<T>()->erase(comp_type);
-			update_entity_target_systems(entity); // ?
 			// Reattach to systems
-			//attach_entity_to_system(entity);
+			update_entity_target_systems(entity); // ?
 		}
 
+		// TODO: should this be static?
 		template<typename T>
 		T& get_component(const Entity_ID entity)
 		{
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 			const Component_Type_ID comp_type = component_type<T>();
-			get_component_list<T>()->get(entity);
+			return get_component_list<T>()->get(entity);
 		}
 
 		template<typename T>
@@ -116,11 +98,13 @@ namespace ECS
 		{
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 			return (get_entity_signature(entity)->count(component_type<T>()) > 0);
+
 			/*
 			const Entity_Signature signature = entities_signatures.at(entity);
 			const Component_Type_ID comp_type = component_type<T>();
 			return (signature.count(comp_type) > 0);
 			*/
+
 		}
 
 		template<typename T>
@@ -163,7 +147,7 @@ namespace ECS
 		{
 			const Component_Type_ID comp_type = component_type<T>();
 
-			// Ease of use, lets an entity add a component without having an existing comp list
+			// Lets an entity add a component without having an existing comp list
 			if (components_array.count(comp_type) == 0)
 			{
 				add_component_list<T>();
@@ -171,49 +155,8 @@ namespace ECS
 
 			return std::static_pointer_cast<ComponentList<T>>(components_array.at(comp_type));
 		}
-		
-		void add_entity_signature(const Entity_ID entity)
-		{
-			assert(entities_signatures.find(entity) == entities_signatures.end() && "Signature not found!");
-			entities_signatures[entity] = std::move(std::make_shared<Entity_Signature>());
-		}
 
-		std::shared_ptr<Entity_Signature> get_entity_signature(const Entity_ID entity)
-		{
-			assert(entities_signatures.find(entity) != entities_signatures.end() && "Signature not found!");
-			return entities_signatures.at(entity);
-		}
-		
-		void update_entity_target_systems(const Entity_ID entity)
-		{
-			for (auto& system : registered_systems)
-			{
-				add_entity_to_system(entity, system.second.get());
-			}
-		}
-
-		void add_entity_to_system(const Entity_ID entity, System* system)
-		{
-			if (belongs_to_system(entity, system->signature))
-			{
-				system->entities.insert(entity);
-			}
-			else
-			{
-				system->entities.erase(entity);
-			}
-		}
-		bool belongs_to_system(const Entity_ID entity, const Entity_Signature& system_signature)
-		{
-			for (const auto comp_type : system_signature)
-			{
-				if (get_entity_signature(entity)->count(comp_type) == 0)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
+#pragma endregion
 
 	private:
 		Entity_ID entity_count;

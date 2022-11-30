@@ -6,7 +6,7 @@ namespace ECS
 	class System;
 	struct Component;
 
-	const size_t MAX_ENTITY_COUNT = 1000;
+	const size_t MAX_ENTITY_COUNT = 1024;
 	const size_t MAX_COMPONENT_COUNT = 16;
 
 	using Entity_ID = size_t;
