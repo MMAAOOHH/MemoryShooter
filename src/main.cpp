@@ -6,11 +6,17 @@
 #include "ECS/Component.h"
 #include "ECS/Entity.h"
 #include "ECS/Systems/SpriteRenderSystem.h"
+#include <cstdlib>
+#include <time.h>
 
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char* NAME = "MemoryShooter";
+
+
+
+ 
 
 
 class Game
@@ -28,6 +34,7 @@ public:
             render();
         }
     }
+
 
     void init(const char* name, int width, int height)
     {
@@ -54,6 +61,35 @@ public:
         // ECS test
 
         ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
+
+        int entities = 800;
+
+        srand(time(NULL));
+        rand();
+
+        auto& manager = ECS::EntityManager::get_instance();
+
+        for (int i = 0; i < entities; ++i)
+        {
+            int x = rand() % SCREEN_WIDTH;
+            int y = rand() % SCREEN_HEIGHT;
+
+            SDL_Color rand_color;
+            rand_color.r = rand() % 255;
+            rand_color.g = rand() % 255;
+            rand_color.b = rand() % 255;
+            rand_color.a = 255;
+
+
+            auto e = manager.add_new_entity();
+            manager.add_component<ECS::Transform>(e);
+            manager.add_component<ECS::Sprite>(e, renderer);
+
+            manager.get_component<ECS::Transform>(e).position = { x, y };
+            manager.get_component<ECS::Sprite>(e).color = rand_color;
+        }
+
+        /*
         auto entity2 = ECS::EntityManager::get_instance().add_new_entity();
 
 
@@ -64,6 +100,7 @@ public:
 
         ECS::EntityManager::get_instance().add_component<ECS::Sprite>(entity2, renderer);
 
+*/
 
         auto end = std::chrono::steady_clock::now();
         std::cout << "Start to end took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms.\n";
@@ -101,10 +138,14 @@ private:
     }
     void render()
     {
+        // Set background colour and clear 
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
         SDL_RenderClear(renderer);
-        // render stuff
+
+        // Render entities
         ECS::EntityManager::get_instance().render();
 
+        // Swap buffers
         SDL_RenderPresent(renderer);
     }
 };
