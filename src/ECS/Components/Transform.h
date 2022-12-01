@@ -2,13 +2,14 @@
 
 #include "../Component.h"
 
+struct vec2
+{
+	int x = 0;
+	int y = 0;
+};
+
 namespace ECS
 {
-	struct vec2
-	{
-		int x, y;
-	};
-
 	struct Transform : Component
 	{
 		vec2 position;

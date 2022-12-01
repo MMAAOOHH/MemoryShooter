@@ -77,7 +77,7 @@ void ECS::EntityManager::add_entity_to_system(const Entity_ID entity, System* sy
 }
 bool ECS::EntityManager::belongs_to_system(const Entity_ID entity, const Entity_Signature& system_signature)
 {
-	for (const auto comp_type : system_signature)
+	for (auto& comp_type : system_signature)
 	{
 		if (get_entity_signature(entity)->count(comp_type) == 0)
 		{

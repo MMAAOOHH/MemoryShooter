@@ -4,19 +4,97 @@
 
 #include "ECS/EntityManager.h"
 #include "ECS/Component.h"
-#include "ECS/Entity.h"
-#include "ECS/Systems/SpriteRenderSystem.h"
 #include <cstdlib>
-#include <time.h>
+#include <string>
+#include <ctime>
+
+#include "ECS/Systems/AABBSystem.h"
+#include "ECS/Systems/SpriteRenderSystem.h"
 
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char* NAME = "MemoryShooter";
 
+namespace ECS
+{
+struct TestComponent1 : ECS::Component
+{
+};
+struct TestComponent2 : ECS::Component
+{
+};
+struct TestComponent3 : ECS::Component
+{
+};
+struct TestComponent4 : ECS::Component
+{
+};
+
+struct TestComponent5 : ECS::Component
+{
+};
+struct TestComponent6 : ECS::Component
+{
+};
+
+struct TestSystem1 : ECS::System
+{
+	TestSystem1()
+	{
+        add_component_signature<TestComponent1>();
+        add_component_signature<TestComponent2>();
+        add_component_signature<TestComponent3>();
+        add_component_signature<TestComponent4>();
+        add_component_signature<TestComponent5>();
+        add_component_signature<TestComponent6>();
+
+        std::cout << "Sysem signature: ";
+        for (auto const& s : signature)
+        {
+            std::cout << s << ' ';
+        }
+        std::cout << std::endl;
+	}
+};
+struct TestSystem2 : ECS::System
+{
+    TestSystem2()
+    {
+        add_component_signature<TestComponent1>();
+        add_component_signature<TestComponent2>();
+        add_component_signature<TestComponent3>();
+        add_component_signature<TestComponent4>();
+        add_component_signature<TestComponent5>();
+        add_component_signature<TestComponent6>();
+
+        std::cout << "Sysem signature: ";
+        for (auto const& s : signature)
+        {
+            std::cout << s << ' ';
+        }
+        std::cout << std::endl;
+    }
+};
+struct TestSystem3 : ECS::System
+{
+    TestSystem3()
+    {
+	    
+    add_component_signature<TestComponent1>();
+    add_component_signature<TestComponent3>();
+
+	std::cout << "Sysem signature: ";
+    for (auto const& s : signature)
+    {
+        std::cout << s << ' ';
+    }
+    std::cout << std::endl;
+    }
+};
 
 
- 
+}
 
 
 class Game
@@ -29,12 +107,17 @@ public:
     {
         while (is_running)
         {
+            Uint64 start = SDL_GetPerformanceCounter();
+
             handle_events();
             update();
             render();
+
+            Uint64 end = SDL_GetPerformanceCounter();
+            float elapsed = (end - start) / (float)SDL_GetPerformanceFrequency();
+            //std::cout << "FPS: " << std::to_string(1.0f / elapsed) << std::endl;
         }
     }
-
 
     void init(const char* name, int width, int height)
     {
@@ -53,22 +136,22 @@ public:
         }
 
 
-
+    	////////////
+        // ECS test
         // Register systems
 
-        auto start = std::chrono::steady_clock::now();
-        ////////////
-        // ECS test
+        //ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
+        ECS::EntityManager::get_instance().register_system<ECS::TestSystem1>();
+        ECS::EntityManager::get_instance().register_system<ECS::TestSystem2>();
+        ECS::EntityManager::get_instance().register_system<ECS::TestSystem3>();
+        //ECS::EntityManager::get_instance().register_system<ECS::AABBSystem>();
 
-        ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
+        //auto start = std::chrono::steady_clock::now();
 
-        int entities = 800;
+        int entities = 100;
 
         srand(time(NULL));
         rand();
-
-        auto& manager = ECS::EntityManager::get_instance();
-
         for (int i = 0; i < entities; ++i)
         {
             int x = rand() % SCREEN_WIDTH;
@@ -81,14 +164,17 @@ public:
             rand_color.a = 255;
 
 
-            auto e = manager.add_new_entity();
-            manager.add_component<ECS::Transform>(e);
-            manager.add_component<ECS::Sprite>(e, renderer);
+            const auto e = ECS::EntityManager::get_instance().add_new_entity();
+            
+            //ECS::EntityManager::get_instance().add_component<TestComponent1>(e);
 
-            manager.get_component<ECS::Transform>(e).position = { x, y };
-            manager.get_component<ECS::Sprite>(e).color = rand_color;
+            /*
+            ECS::EntityManager::get_instance().add_component<ECS::Transform>(e);
+
+            ECS::EntityManager::get_instance().get_component<ECS::Sprite>(e).color = rand_color;
+            ECS::EntityManager::get_instance().get_component<ECS::Transform>(e).position = { x, y };
+            */
         }
-
         /*
         auto entity2 = ECS::EntityManager::get_instance().add_new_entity();
 
@@ -102,12 +188,9 @@ public:
 
 */
 
-        auto end = std::chrono::steady_clock::now();
-        std::cout << "Start to end took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms.\n";
-
-
-
-        // 
+        //auto end = std::chrono::steady_clock::now();
+        //std::cout << "Start to end took: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << "ms.\n";
+    	// 
     }
     void clean()
     {
@@ -121,7 +204,6 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool is_running = false;
-
 
     void handle_events()
     {
@@ -150,52 +232,10 @@ private:
     }
 };
 
-struct TestComponentA : public ECS::Component
-{
-    int a = 69;
-};
-
-struct TestComponentB : public ECS::Component
-{
-    int a = 666;
-};
-
-struct TestSystemA : public ECS::System
-{
-    
-	TestSystemA()
-	{
-        add_component_signature<TestComponentA>();
-	}
-	
-};
-
-struct TestSystemB : public ECS::System
-{
-    TestSystemB()
-    {
-        add_component_signature<TestComponentB>();
-    }
-    
-};
-
-struct TestSystemC : public ECS::System
-{
-    TestSystemC()
-    {
-        add_component_signature<TestComponentA>();
-        add_component_signature<TestComponentB>();
-    }
-};
-
-
 
 
 int main(int argc, char* argv[])
 {
-
-
-
     ////////////
     auto const awesome = std::make_unique<Game>();
     awesome->init(NAME, SCREEN_WIDTH, SCREEN_HEIGHT);

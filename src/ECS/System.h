@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Types.h"
-#include <iostream>
 
 namespace ECS
 {
@@ -12,9 +11,7 @@ namespace ECS
 		virtual ~System() = default;
 
 		void add_entity(const Entity_ID entity);
-
 		void remove_entity(const Entity_ID entity);
-
 		Entity_Signature get_signature() const;
 
 		template<typename T>
@@ -23,20 +20,10 @@ namespace ECS
 			signature.insert(component_type<T>());
 		}
 
-		virtual void start() {}
-		virtual void update()
-		{
-			/*
-			std::cout << "System " << &signature << " has entity: ";
-			for (auto i : entities)
-			{
-				std::cout << i << " ";
-			}
-			std::cout << std::endl;
-			*/
-		}
+		virtual void start(){}
+		virtual void update(){}
 		virtual void render(){}
-		virtual void destroy() {}
+		virtual void destroy(){}
 
 	protected:
 		friend class EntityManager;

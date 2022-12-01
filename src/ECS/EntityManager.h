@@ -48,6 +48,7 @@ namespace ECS
 		void update_entity_target_systems(const Entity_ID entity);
 		void add_entity_to_system(const Entity_ID entity, System* system);
 		bool belongs_to_system(const Entity_ID entity, const Entity_Signature& system_signature);
+		
 
 #pragma region Templates
 

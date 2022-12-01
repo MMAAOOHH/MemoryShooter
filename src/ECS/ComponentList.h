@@ -23,9 +23,9 @@ namespace ECS
 		ComponentList() = default;
 		~ComponentList() = default;
 
-
 		void insert(const T& component)
 		{
+			// check list, if component id matches existing id, if not add to list
 			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == component.get_id(); });
 			if (comp == data.end())
 			{
@@ -35,6 +35,7 @@ namespace ECS
 
 		T& get(const Entity_ID entity)
 		{
+			// check list, if component id matches entity id (if entity has component)
 			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == entity; });
 			assert(comp != data.end() && "Trying to get non-existing component!");
 			return *comp;
