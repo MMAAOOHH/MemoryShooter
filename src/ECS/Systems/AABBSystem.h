@@ -10,15 +10,18 @@
 
 struct AABBSystem : ECS::System
 {
-	AABBSystem();
+	AABBSystem()
+	{
+		std::cout << "AABBSystem created" << std::endl;
+	}
 
-	void start();
+	// Todo: store managere reference
+	void init();
 	void update();
-	void render();
-	void destroy();
 
 	private:
 		AABB make_from_position_size(int x, int y, int w, int h);
 		bool aabb_intersect(const AABB& a, const AABB& b);
+
 		std::vector<AABB> aabb_list;
 };

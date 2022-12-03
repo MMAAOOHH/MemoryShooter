@@ -36,7 +36,7 @@ public:
 
             Uint64 end = SDL_GetPerformanceCounter();
             float elapsed = (end - start) / (float)SDL_GetPerformanceFrequency();
-            //std::cout << "FPS: " << std::to_string(1.0f / elapsed) << std::endl;
+            std::cout << "FPS: " << std::to_string(1.0f / elapsed) << std::endl;
         }
     }
 
@@ -67,21 +67,30 @@ public:
 
     	// Register Systems
     	render_system = ECS::ECSManager::get_instance().register_system<SpriteRenderSystem>();
+    	aabb_system = ECS::ECSManager::get_instance().register_system<AABBSystem>();
 
         // Set System signatures
         {
-        ECS::Signature signature;
-        signature.set(ECS::ECSManager::get_instance().get_component_type<Transform>(), true);
-        signature.set(ECS::ECSManager::get_instance().get_component_type<Sprite>(), true);
+            ECS::Signature signature;
+            signature.set(ECS::ECSManager::get_instance().get_component_type<Transform>(), true);
+            signature.set(ECS::ECSManager::get_instance().get_component_type<Sprite>(), true);
 
-        ECS::ECSManager::get_instance().set_system_signature<SpriteRenderSystem>(signature);
-
+            ECS::ECSManager::get_instance().set_system_signature<SpriteRenderSystem>(signature);
         }
+
+        {
+            ECS::Signature signature;
+            signature.set(ECS::ECSManager::get_instance().get_component_type<Transform>(), true);
+            signature.set(ECS::ECSManager::get_instance().get_component_type<Collision>(), true);
+
+            ECS::ECSManager::get_instance().set_system_signature<AABBSystem>(signature);
+        }
+
         //ECS::EntityManager::get_instance().register_system<ECS::AABBSystem>();
 
         //auto start = std::chrono::steady_clock::now();
 
-        int entities = 800;
+        int entities = 1000;
 
         srand(time(NULL));
         rand();
@@ -101,6 +110,7 @@ public:
             
             ECS::ECSManager::get_instance().add_component<Transform>(e);
             ECS::ECSManager::get_instance().add_component<Sprite>(e);
+            ECS::ECSManager::get_instance().add_component<Collision>(e);
 
 
             /*
@@ -141,6 +151,7 @@ private:
     bool is_running = false;
 
     std::shared_ptr<SpriteRenderSystem> render_system;
+    std::shared_ptr<AABBSystem> aabb_system;
 
     void handle_events()
     {
@@ -153,6 +164,8 @@ private:
     }
     void update()
     {
+
+        aabb_system->update();
 
     }
     void render()

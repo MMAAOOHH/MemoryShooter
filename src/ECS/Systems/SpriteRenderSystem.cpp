@@ -18,6 +18,7 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 
 	for (auto& entity : entities)
 	{
+		// Todo: fetch and store components some other way, no need to do it each frame. create map with paired components?
 		auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(entity);
 		auto& sprite = ECS::ECSManager::get_instance().get_component<Sprite>(entity);
 
