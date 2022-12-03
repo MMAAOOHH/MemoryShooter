@@ -50,7 +50,6 @@ namespace ECS
 			}
 		}
 
-		// Use array instead?
 		std::vector<T> data;
 	};
 }

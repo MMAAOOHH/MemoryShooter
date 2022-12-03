@@ -2,10 +2,8 @@
 
 #include "../Component.h"
 
-namespace ECS
+
+struct Collision : ECS::Component
 {
-	struct Collision : Component
-	{
-		
-	};
-}
+
+};

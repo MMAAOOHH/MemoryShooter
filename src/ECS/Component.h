@@ -6,6 +6,7 @@ namespace ECS
 {
 	struct Component
 	{
+		// 
 		Component() : entity_id() {}
 		virtual ~Component(){}
 		inline const Entity_ID get_id() const { return entity_id; }
@@ -14,5 +15,6 @@ namespace ECS
 		// Let the manager access private entity_id  
 		friend class EntityManager;
 		Entity_ID entity_id;
+		static int comp_id;
 	};
 }

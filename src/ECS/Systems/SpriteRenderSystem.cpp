@@ -3,7 +3,6 @@
 #include "../EntityManager.h"
 
 
-
 ECS::SpriteRenderSystem::SpriteRenderSystem()
 {
 	add_component_signature<Transform>();
@@ -36,11 +35,15 @@ void ECS::SpriteRenderSystem::render()
 		auto& transform = EntityManager::get_instance().get_component<Transform>(entity);
 		auto& sprite = EntityManager::get_instance().get_component<Sprite>(entity);
 
-		SDL_Rect rect = sprite.rect;
+		SDL_Color color = sprite.color;
+
+		SDL_Rect rect;
+
+		rect.w = 32;
+		rect.h = 32;
+
 		rect.x = transform.position.x;
 		rect.y = transform.position.y;
-
-		SDL_Color color = sprite.color;
 
 		SDL_SetRenderDrawColor(sprite.renderer, color.r, color.g, color.b, color.a);
 		SDL_RenderFillRect(sprite.renderer, &rect);

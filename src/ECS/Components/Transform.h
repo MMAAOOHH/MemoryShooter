@@ -8,12 +8,13 @@ struct vec2
 	int y = 0;
 };
 
-namespace ECS
+
+struct Transform : ECS::Component
 {
-	struct Transform : Component
-	{
-		vec2 position;
-		float rotation = 0.f;
-		float scale = 1.f;
-	};
-}
+	vec2 position;
+	float rotation = 0.f;
+	float scale = 1.f;
+
+	void translate(vec2 v2)
+	{}
+};

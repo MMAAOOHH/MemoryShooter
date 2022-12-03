@@ -18,7 +18,7 @@ const char* NAME = "MemoryShooter";
 
 namespace ECS
 {
-struct TestComponent1 : ECS::Component
+	struct TestComponent1 : ECS::Component
 {
 };
 struct TestComponent2 : ECS::Component
@@ -34,9 +34,7 @@ struct TestComponent4 : ECS::Component
 struct TestComponent5 : ECS::Component
 {
 };
-struct TestComponent6 : ECS::Component
-{
-};
+
 
 struct TestSystem1 : ECS::System
 {
@@ -47,7 +45,6 @@ struct TestSystem1 : ECS::System
         add_component_signature<TestComponent3>();
         add_component_signature<TestComponent4>();
         add_component_signature<TestComponent5>();
-        add_component_signature<TestComponent6>();
 
         std::cout << "Sysem signature: ";
         for (auto const& s : signature)
@@ -66,7 +63,6 @@ struct TestSystem2 : ECS::System
         add_component_signature<TestComponent3>();
         add_component_signature<TestComponent4>();
         add_component_signature<TestComponent5>();
-        add_component_signature<TestComponent6>();
 
         std::cout << "Sysem signature: ";
         for (auto const& s : signature)
@@ -95,6 +91,7 @@ struct TestSystem3 : ECS::System
 
 
 }
+
 
 
 class Game
@@ -141,14 +138,14 @@ public:
         // Register systems
 
         //ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
-        ECS::EntityManager::get_instance().register_system<ECS::TestSystem1>();
-        ECS::EntityManager::get_instance().register_system<ECS::TestSystem2>();
-        ECS::EntityManager::get_instance().register_system<ECS::TestSystem3>();
+        ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
+        //ECS::EntityManager::get_instance().register_system<ECS::TestSystem2>();
+        //ECS::EntityManager::get_instance().register_system<ECS::TestSystem3>();
         //ECS::EntityManager::get_instance().register_system<ECS::AABBSystem>();
 
         //auto start = std::chrono::steady_clock::now();
 
-        int entities = 100;
+        int entities = 500;
 
         srand(time(NULL));
         rand();
@@ -166,14 +163,15 @@ public:
 
             const auto e = ECS::EntityManager::get_instance().add_new_entity();
             
-            //ECS::EntityManager::get_instance().add_component<TestComponent1>(e);
+            ECS::EntityManager::get_instance().add_component<ECS::Transform>(e);
+            ECS::EntityManager::get_instance().add_component<ECS::Sprite>(e, renderer);
 
             /*
             ECS::EntityManager::get_instance().add_component<ECS::Transform>(e);
+			*/
 
             ECS::EntityManager::get_instance().get_component<ECS::Sprite>(e).color = rand_color;
             ECS::EntityManager::get_instance().get_component<ECS::Transform>(e).position = { x, y };
-            */
         }
         /*
         auto entity2 = ECS::EntityManager::get_instance().add_new_entity();

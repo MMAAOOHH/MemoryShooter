@@ -4,6 +4,8 @@
 
 namespace ECS
 {
+	/*
+
 	class Entity
 	{
 	public:
@@ -48,4 +50,5 @@ namespace ECS
 		Entity_ID id;
 		EntityManager* manager;
 	};
+	*/
 }

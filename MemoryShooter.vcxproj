@@ -142,9 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ECS\ComponentList.cpp" />
     <ClCompile Include="src\ECS\System.cpp" />
-    <ClCompile Include="src\ECS\EntityManager.cpp" />
     <ClCompile Include="src\ECS\Systems\AABBSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\SpriteRenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -152,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\ComponentList.h" />
+    <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components\AABB.h" />
     <ClInclude Include="src\ECS\Components\Collision.h" />
     <ClInclude Include="src\ECS\Components\Sprite.h" />
@@ -163,6 +162,7 @@
     <ClInclude Include="src\ECS\Systems\AABBSystem.h" />
     <ClInclude Include="src\ECS\Systems\SpriteRenderSystem.h" />
     <ClInclude Include="src\ECS\Types.h" />
+    <ClInclude Include="src\ECS\SystemManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

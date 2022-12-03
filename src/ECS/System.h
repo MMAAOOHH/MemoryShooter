@@ -26,7 +26,7 @@ namespace ECS
 		virtual void destroy(){}
 
 	protected:
-		friend class EntityManager;
+		friend class SystemManager;
 		Entity_Signature signature;
 		std::set<Entity_ID> entities;
 	};

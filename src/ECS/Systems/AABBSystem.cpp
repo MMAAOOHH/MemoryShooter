@@ -1,7 +1,10 @@
 #pragma once
 
 #include "AABBSystem.h"
+
 #include "../EntityManager.h"
+#include "../Components/Transform.h"
+#include "../Components/Collision.h"
 
 ECS::AABBSystem::AABBSystem()
 {
