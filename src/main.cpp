@@ -2,7 +2,7 @@
 #include <SDL/SDL.h>
 #include <chrono>
 
-#include "ECS/EntityManager.h"
+#include "ECS/ECS.h"
 #include "ECS/Component.h"
 #include <cstdlib>
 #include <string>
@@ -15,82 +15,6 @@
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char* NAME = "MemoryShooter";
-
-namespace ECS
-{
-	struct TestComponent1 : ECS::Component
-{
-};
-struct TestComponent2 : ECS::Component
-{
-};
-struct TestComponent3 : ECS::Component
-{
-};
-struct TestComponent4 : ECS::Component
-{
-};
-
-struct TestComponent5 : ECS::Component
-{
-};
-
-
-struct TestSystem1 : ECS::System
-{
-	TestSystem1()
-	{
-        add_component_signature<TestComponent1>();
-        add_component_signature<TestComponent2>();
-        add_component_signature<TestComponent3>();
-        add_component_signature<TestComponent4>();
-        add_component_signature<TestComponent5>();
-
-        std::cout << "Sysem signature: ";
-        for (auto const& s : signature)
-        {
-            std::cout << s << ' ';
-        }
-        std::cout << std::endl;
-	}
-};
-struct TestSystem2 : ECS::System
-{
-    TestSystem2()
-    {
-        add_component_signature<TestComponent1>();
-        add_component_signature<TestComponent2>();
-        add_component_signature<TestComponent3>();
-        add_component_signature<TestComponent4>();
-        add_component_signature<TestComponent5>();
-
-        std::cout << "Sysem signature: ";
-        for (auto const& s : signature)
-        {
-            std::cout << s << ' ';
-        }
-        std::cout << std::endl;
-    }
-};
-struct TestSystem3 : ECS::System
-{
-    TestSystem3()
-    {
-	    
-    add_component_signature<TestComponent1>();
-    add_component_signature<TestComponent3>();
-
-	std::cout << "Sysem signature: ";
-    for (auto const& s : signature)
-    {
-        std::cout << s << ' ';
-    }
-    std::cout << std::endl;
-    }
-};
-
-
-}
 
 
 
@@ -135,17 +59,29 @@ public:
 
     	////////////
         // ECS test
-        // Register systems
 
-        //ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
-        ECS::EntityManager::get_instance().register_system<ECS::SpriteRenderSystem>();
-        //ECS::EntityManager::get_instance().register_system<ECS::TestSystem2>();
-        //ECS::EntityManager::get_instance().register_system<ECS::TestSystem3>();
+        // Register Components
+        ECS::ECSManager::get_instance().register_component<Transform>();
+        ECS::ECSManager::get_instance().register_component<Sprite>();
+        ECS::ECSManager::get_instance().register_component<Collision>();
+
+    	// Register Systems
+    	render_system = ECS::ECSManager::get_instance().register_system<SpriteRenderSystem>();
+
+        // Set System signatures
+        {
+        ECS::Signature signature;
+        signature.set(ECS::ECSManager::get_instance().get_component_type<Transform>(), true);
+        signature.set(ECS::ECSManager::get_instance().get_component_type<Sprite>(), true);
+
+        ECS::ECSManager::get_instance().set_system_signature<SpriteRenderSystem>(signature);
+
+        }
         //ECS::EntityManager::get_instance().register_system<ECS::AABBSystem>();
 
         //auto start = std::chrono::steady_clock::now();
 
-        int entities = 500;
+        int entities = 800;
 
         srand(time(NULL));
         rand();
@@ -161,17 +97,18 @@ public:
             rand_color.a = 255;
 
 
-            const auto e = ECS::EntityManager::get_instance().add_new_entity();
+            const auto e = ECS::ECSManager::get_instance().create_entity();
             
-            ECS::EntityManager::get_instance().add_component<ECS::Transform>(e);
-            ECS::EntityManager::get_instance().add_component<ECS::Sprite>(e, renderer);
+            ECS::ECSManager::get_instance().add_component<Transform>(e);
+            ECS::ECSManager::get_instance().add_component<Sprite>(e);
+
 
             /*
             ECS::EntityManager::get_instance().add_component<ECS::Transform>(e);
 			*/
 
-            ECS::EntityManager::get_instance().get_component<ECS::Sprite>(e).color = rand_color;
-            ECS::EntityManager::get_instance().get_component<ECS::Transform>(e).position = { x, y };
+            ECS::ECSManager::get_instance().get_component<Transform>(e).position = { x, y };
+            ECS::ECSManager::get_instance().get_component<Sprite>(e).color = rand_color;
         }
         /*
         auto entity2 = ECS::EntityManager::get_instance().add_new_entity();
@@ -203,6 +140,8 @@ private:
     SDL_Renderer* renderer;
     bool is_running = false;
 
+    std::shared_ptr<SpriteRenderSystem> render_system;
+
     void handle_events()
     {
         SDL_Event event;
@@ -214,7 +153,7 @@ private:
     }
     void update()
     {
-        ECS::EntityManager::get_instance().update();
+
     }
     void render()
     {
@@ -223,7 +162,7 @@ private:
         SDL_RenderClear(renderer);
 
         // Render entities
-        ECS::EntityManager::get_instance().render();
+        render_system->update(renderer);
 
         // Swap buffers
         SDL_RenderPresent(renderer);

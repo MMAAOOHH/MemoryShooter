@@ -12,9 +12,8 @@ namespace ECS
 		inline const Entity_ID get_id() const { return entity_id; }
 
 	private:
-		// Let the manager access private entity_id  
-		friend class EntityManager;
+		// Let the manager access and set private entity_id  
+		friend class ComponentManager;
 		Entity_ID entity_id;
-		static int comp_id;
 	};
 }

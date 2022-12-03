@@ -2,28 +2,25 @@
 
 #include "AABBSystem.h"
 
-#include "../EntityManager.h"
+#include "../ECS.h"
 #include "../Components/Transform.h"
 #include "../Components/Collision.h"
 
-ECS::AABBSystem::AABBSystem()
+AABBSystem::AABBSystem()
 {
-	add_component_signature<Transform>();
-	add_component_signature<Collision>();
+	ECS::Signature signature;
+	signature.set(ECS::ECSManager::get_instance().get_component_type<Transform>(), true);
+	signature.set(ECS::ECSManager::get_instance().get_component_type<Collision>(), true);
 
-	std::cout << "AABB Sysem signature: ";
-	for (auto const& s : signature)
-	{
-		std::cout << s << ' ';
-	}
-	std::cout << std::endl;
+	ECS::ECSManager::get_instance().set_system_signature<AABBSystem>(signature);
+
+	std::cout << "AABBSystem created" << std::endl;
+	std::cout << "AABBSystem signature: " << signature << std::endl;
 }
 
-void ECS::AABBSystem::start()
-{
-}
 
-void ECS::AABBSystem::update()
+
+void AABBSystem::update()
 {
 	
 	// make AABB box and store for each entry, kinda bad cause we already have our list but whatever
@@ -71,15 +68,9 @@ void ECS::AABBSystem::update()
 	*/
 }
 
-void ECS::AABBSystem::render()
-{
-}
 
-void ECS::AABBSystem::destroy()
-{
-}
 
-ECS::AABB ECS::AABBSystem::make_from_position_size(int x, int y, int w, int h)
+AABB AABBSystem::make_from_position_size(int x, int y, int w, int h)
 {
 	AABB box;
 	box.x_min = x - w;
@@ -90,7 +81,7 @@ ECS::AABB ECS::AABBSystem::make_from_position_size(int x, int y, int w, int h)
 	return box;
 }
 
-bool ECS::AABBSystem::aabb_intersect(const ECS::AABB& a, const ECS::AABB& b)
+bool AABBSystem::aabb_intersect(const AABB& a, const AABB& b)
 {
 	return (a.x_max > b.x_min &&
 			b.x_max > a.x_min &&

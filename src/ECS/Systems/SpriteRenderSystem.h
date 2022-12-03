@@ -7,15 +7,9 @@
 #include "../Components/Transform.h"
 #include "../Components/Sprite.h"
 
-namespace ECS
+struct SpriteRenderSystem : ECS::System
 {
-	struct SpriteRenderSystem : System
-	{
 		SpriteRenderSystem();
 
-		void start() override;
-		void update() override;
-		void render() override;
-		void destroy() override;
-	};
-}
+		void update(SDL_Renderer* renderer);
+};

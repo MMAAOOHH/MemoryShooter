@@ -1,39 +1,25 @@
 #include "SpriteRenderSystem.h"
 
-#include "../EntityManager.h"
+#include "../ECS.h"
 
 
-ECS::SpriteRenderSystem::SpriteRenderSystem()
+SpriteRenderSystem::SpriteRenderSystem()
 {
-	add_component_signature<Transform>();
-	add_component_signature<Sprite>();
 
-	std::cout << "Render Sysem signature: ";
-	for (auto const& s : signature)
-	{
-		std::cout << s << ' ';
-	}
-	std::cout<< std::endl;
+	std::cout << "Render System created" << std::endl;
+	//std::cout << "Render Sysem signature: " << signature << std::endl;
+
 }
 
-void ECS::SpriteRenderSystem::start()
-{
-}
-
-void ECS::SpriteRenderSystem::update()
-{
-}
-
-void ECS::SpriteRenderSystem::render()
+void SpriteRenderSystem::update(SDL_Renderer* renderer)
 {
 	if (entities.empty()) return;
 
+
 	for (auto& entity : entities)
 	{
-		// TODO: how do i solve this? global variable? forward declaration? whats missing?
-
-		auto& transform = EntityManager::get_instance().get_component<Transform>(entity);
-		auto& sprite = EntityManager::get_instance().get_component<Sprite>(entity);
+		auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(entity);
+		auto& sprite = ECS::ECSManager::get_instance().get_component<Sprite>(entity);
 
 		SDL_Color color = sprite.color;
 
@@ -45,11 +31,7 @@ void ECS::SpriteRenderSystem::render()
 		rect.x = transform.position.x;
 		rect.y = transform.position.y;
 
-		SDL_SetRenderDrawColor(sprite.renderer, color.r, color.g, color.b, color.a);
-		SDL_RenderFillRect(sprite.renderer, &rect);
+		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+		SDL_RenderFillRect(renderer, &rect);
 	}
-}
-
-void ECS::SpriteRenderSystem::destroy()
-{
 }

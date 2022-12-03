@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include <unordered_map>
 
 #include "Types.h"
@@ -35,6 +34,9 @@ namespace ECS
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 
 			T component(std::forward<Args>(args)...);
+			// TODO: Remove after we change how we deal with components. 
+			component.entity_id = entity;
+
 			get_component_list<T>()->insert(component);
 		}
 
@@ -51,6 +53,25 @@ namespace ECS
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 			return get_component_list<T>()->get(entity);
 		}
+
+		template<typename T>
+		Component_Type get_component_type()
+		{
+			const char* type = typeid(T).name();
+			assert(component_types.find(type) != component_types.end() && "Component not registered");
+			return component_types[type];
+		}
+
+		void entity_destroyed(Entity_ID entity)
+		{
+			for (auto const& pair : components_array)
+			{
+				auto const& component = pair.second;
+				// Todo: make more memory oriented, see comments in ComponentList.h
+				component->erase(entity);
+			}
+		}
+
 
 	private:
 
