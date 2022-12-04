@@ -1,15 +1,7 @@
 #include "SpriteRenderSystem.h"
 
 #include "../ECS.h"
-
-
-SpriteRenderSystem::SpriteRenderSystem()
-{
-
-	std::cout << "Render System created" << std::endl;
-	//std::cout << "Render Sysem signature: " << signature << std::endl;
-
-}
+#include <SDL/SDL_render.h>
 
 void SpriteRenderSystem::update(SDL_Renderer* renderer)
 {

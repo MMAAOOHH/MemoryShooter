@@ -30,6 +30,7 @@ void AABBSystem::update()
 			// Detect collision
 			if (aabb_intersect(a, b))
 			{
+				// Todo: return entities at index a / b;
 				//std::cout << "Colliision" << std::endl;
 			}
 		}

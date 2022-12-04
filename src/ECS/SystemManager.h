@@ -11,9 +11,7 @@ namespace ECS
 {
 	class SystemManager
 	{
-
 	public:
-
 		template<typename T>
 		std::shared_ptr<T> register_system()
 		{

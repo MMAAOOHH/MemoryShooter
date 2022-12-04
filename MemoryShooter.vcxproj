@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="src\ECS\System.cpp" />
     <ClCompile Include="src\ECS\Systems\AABBSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\SpriteRenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components\AABB.h" />
     <ClInclude Include="src\ECS\Components\Collision.h" />
+    <ClInclude Include="src\ECS\Components\Physics.h" />
     <ClInclude Include="src\ECS\Components\Sprite.h" />
     <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="src\ECS\ECS.h" />
@@ -160,9 +162,12 @@
     <ClInclude Include="src\ECS\EntityManager.h" />
     <ClInclude Include="src\ECS\System.h" />
     <ClInclude Include="src\ECS\Systems\AABBSystem.h" />
+    <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\Systems\SpriteRenderSystem.h" />
     <ClInclude Include="src\ECS\Types.h" />
     <ClInclude Include="src\ECS\SystemManager.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Math.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

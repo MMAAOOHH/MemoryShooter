@@ -18,9 +18,6 @@ namespace ECS
 	using Entity_Signature = std::set<Component_Type>;
 	using Signature = std::bitset<MAX_COMPONENT_COUNT>;
 
-
-
-
 	inline static const Component_Type get_runtime_comp_type_id()
 	{
 		static Component_Type type_id = 0u;

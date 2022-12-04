@@ -1,15 +1,16 @@
 #pragma once
 
-#include <SDL/SDL_render.h>
-
 #include "../System.h"
-// Is thesce includes the issue, if so why?
+
 #include "../Components/Transform.h"
 #include "../Components/Sprite.h"
 
 struct SpriteRenderSystem : ECS::System
 {
-		SpriteRenderSystem();
+		SpriteRenderSystem()
+		{
+			std::cout << "Render System created" << std::endl;
+		}
 
 		void update(SDL_Renderer* renderer);
 };
