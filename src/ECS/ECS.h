@@ -19,6 +19,7 @@ namespace ECS
 		// delete copy constructor
 		ECSManager(const ECSManager&) = delete;
 
+		// TODO: Make unique ptr?
 		//singleton
 		static ECSManager& get_instance()
 		{

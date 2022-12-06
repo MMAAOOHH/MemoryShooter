@@ -8,6 +8,7 @@
 #include "Transform.h"
 #include "Sprite.h"
 #include "Physics.h"
+#include "Weapon.h"
 
 #include "..//../Common.h"
 
@@ -17,11 +18,17 @@ struct Player : ECS::Component
 
 	void init()
 	{
-		ECS::ECSManager::get_instance().add_component<Controller>(this->get_id());
-		ECS::ECSManager::get_instance().add_component<Transform>(this->get_id());
-		ECS::ECSManager::get_instance().add_component<Sprite>(this->get_id());
-		ECS::ECSManager::get_instance().add_component<RigidBody>(this->get_id());
+		auto& manager = ECS::ECSManager::get_instance();
+
+		manager.add_component<Controller>(this->get_id());
+		manager.add_component<Transform>(this->get_id());
+		manager.add_component<Sprite>(this->get_id());
+		manager.add_component<Collision>(this->get_id());
+		manager.add_component<RigidBody>(this->get_id());
+		manager.add_component<Weapon>(this->get_id());
 	}
+
+	float weapon_wait = 0.5f;
 
 	void update(const float delta_time)
 	{
@@ -49,5 +56,15 @@ struct Player : ECS::Component
 
 		auto& controller = ECS::ECSManager::get_instance().get_component<Controller>(this->get_id());
 		controller.move(direction * move_speed, delta_time);
+
+		if ((keys[SDL_SCANCODE_SPACE]))
+		{
+			weapon_wait += delta_time;
+			if (weapon_wait > 0.1f)
+			{
+				ECS::ECSManager::get_instance().get_component<Weapon>(this->get_id()).Shoot();
+				weapon_wait = 0;
+			}
+		}
 	}
 };

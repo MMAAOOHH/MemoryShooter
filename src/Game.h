@@ -16,11 +16,10 @@
 
 #include "Common.h"
 
-
-extern const int SCREEN_WIDTH;
-extern const int SCREEN_HEIGHT;
-
 bool keys[SDL_NUM_SCANCODES]{ false };
+int DEFAULT_SPRITE_W = 32;
+int DEFAULT_SPRITE_H = 32;
+SDL_Renderer* RENDERER;
 
 class Game
 {
@@ -36,6 +35,7 @@ public:
         {
             window = SDL_CreateWindow(name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
             renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+            RENDERER = renderer;
             SDL_SetRenderDrawColor(renderer, 0, 25, 25, 255);
             is_running = true;
         }
@@ -55,6 +55,8 @@ public:
         manager.register_component<RigidBody>();
         manager.register_component<Player>();
         manager.register_component<Controller>();
+        manager.register_component<Weapon>();
+        manager.register_component<Bullet>();
 
         // Register Systems
         render_system = manager.register_system<SpriteRenderSystem>();
@@ -88,15 +90,10 @@ public:
             manager.set_system_signature<PhysicsSystem>(signature);
         }
 
-        // Creating player entity
-        const auto p = ECS::ECSManager::get_instance().create_entity();
-        manager.add_component<Player>(p);
-        player = &manager.get_component<Player>(p);
-        player->init();
 
-        /*
-        int entities = 500;
 
+        
+        int entities = 2;
         srand(time(NULL));
         rand();
         for (int i = 0; i < entities; ++i)
@@ -120,7 +117,17 @@ public:
            manager.get_component<Transform>(e).position = { (float)x, (float)y };
            manager.get_component<Sprite>(e).color = rand_color;
         }
-        */
+        
+        
+        // Creating player entity
+        const auto p = ECS::ECSManager::get_instance().create_entity();
+        manager.add_component<Player>(p);
+        player = &manager.get_component<Player>(p);
+
+        player->init();
+        aabb_system->init();
+
+        
     }
     void clean()
     {
