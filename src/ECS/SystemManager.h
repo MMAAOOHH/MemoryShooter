@@ -33,7 +33,7 @@ namespace ECS
 			registered_signatures.insert({ type, signature });
 		}
 
-		void remove_entity(const Entity_ID entity)
+		void remove_entity(const Entity entity)
 		{
 			for (auto const& pair : registered_systems)
 			{
@@ -43,7 +43,7 @@ namespace ECS
 			}
 		}
 
-		void entity_signature_changed(const Entity_ID entity, const Signature entity_signature)
+		void entity_signature_changed(const Entity entity, const Signature entity_signature)
 		{
 			for (auto const& pair : registered_systems)
 			{

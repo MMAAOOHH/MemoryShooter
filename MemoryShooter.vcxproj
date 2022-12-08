@@ -142,8 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ECS\System.cpp" />
-    <ClCompile Include="src\ECS\Systems\AABBSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\CollisionSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\SpriteRenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -163,10 +162,9 @@
     <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="src\ECS\Components\Weapon.h" />
     <ClInclude Include="src\ECS\ECS.h" />
-    <ClInclude Include="src\ECS\Entity.h" />
     <ClInclude Include="src\ECS\EntityManager.h" />
     <ClInclude Include="src\ECS\System.h" />
-    <ClInclude Include="src\ECS\Systems\AABBSystem.h" />
+    <ClInclude Include="src\ECS\Systems\CollisionSystem.h" />
     <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\Systems\SpriteRenderSystem.h" />
     <ClInclude Include="src\ECS\Types.h" />

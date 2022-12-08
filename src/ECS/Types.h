@@ -11,13 +11,14 @@ namespace ECS
 	const size_t MAX_ENTITY_COUNT = 20000;
 	const size_t MAX_COMPONENT_COUNT = 16;
 
-	using Entity_ID = size_t;
+	using Entity = size_t;
 	using System_Type = size_t;
 	using Component_Type = size_t;
 
 	using Entity_Signature = std::set<Component_Type>;
 	using Signature = std::bitset<MAX_COMPONENT_COUNT>;
 
+	/*
 	inline static const Component_Type get_runtime_comp_type_id()
 	{
 		static Component_Type type_id = 0u;
@@ -47,4 +48,5 @@ namespace ECS
 		static const System_Type type_id = get_runtime_system_type_id();
 		return type_id;
 	}
+	*/
 }

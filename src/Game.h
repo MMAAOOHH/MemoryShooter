@@ -8,7 +8,7 @@
 #include <SDL/SDL.h>
 
 #include "ECS/ECS.h"
-#include "ECS/Systems/AABBSystem.h"
+#include "ECS/Systems/CollisionSystem.h"
 #include "ECS/Systems/SpriteRenderSystem.h"
 #include "ECS/Systems/PhysicsSystem.h"
 #include "ECS/Components/Controller.h"
@@ -60,7 +60,7 @@ public:
 
         // Register Systems
         render_system = manager.register_system<SpriteRenderSystem>();
-        aabb_system = manager.register_system<AABBSystem>();
+        aabb_system = manager.register_system<CollisionSystem>();
         physics_system = manager.register_system<PhysicsSystem>();
 
         // Set System signatures
@@ -79,7 +79,7 @@ public:
             signature.set(manager.get_component_type<Transform>(), true);
             signature.set(manager.get_component_type<Collision>(), true);
 
-            manager.set_system_signature<AABBSystem>(signature);
+            manager.set_system_signature<CollisionSystem>(signature);
         }
         {
             // Physics
@@ -93,7 +93,7 @@ public:
 
 
         
-        int entities = 2;
+        int entities = 1000;
         srand(time(NULL));
         rand();
         for (int i = 0; i < entities; ++i)
@@ -112,7 +112,7 @@ public:
            manager.add_component<Transform>(e);
            manager.add_component<Sprite>(e);
            manager.add_component<Collision>(e);
-           manager.add_component<RigidBody>(e);
+           //manager.add_component<RigidBody>(e);
 
            manager.get_component<Transform>(e).position = { (float)x, (float)y };
            manager.get_component<Sprite>(e).color = rand_color;
@@ -161,7 +161,7 @@ public:
             // limit fps
             //SDL_Delay(4);
             // Show fps
-            //std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
+            std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
         }
     }
 
@@ -172,7 +172,7 @@ private:
     bool is_running = false;
 
     std::shared_ptr<SpriteRenderSystem> render_system;
-    std::shared_ptr<AABBSystem> aabb_system;
+    std::shared_ptr<CollisionSystem> aabb_system;
     std::shared_ptr<PhysicsSystem> physics_system;
     Player* player;
 

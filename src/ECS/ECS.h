@@ -30,12 +30,12 @@ namespace ECS
 		~ECSManager() = default;
 
 		// Entities
-		Entity_ID create_entity()
+		Entity create_entity()
 		{
 			return entity_manager->add_new_entity();
 		}
 
-		void destroy_entity(const Entity_ID entity)
+		void destroy_entity(const Entity entity)
 		{
 			entity_manager->destroy_entity(entity);
 			component_manager->entity_destroyed(entity);
@@ -50,7 +50,7 @@ namespace ECS
 		}
 
 		template<typename T>
-		void add_component(const Entity_ID entity)
+		void add_component(const Entity entity)
 		{
 			// Adds the component to managers component list
 			component_manager->add_component<T>(entity);
@@ -69,7 +69,7 @@ namespace ECS
 		}
 
 		template<typename T>
-		T& get_component(const Entity_ID entity)
+		T& get_component(const Entity entity)
 		{
 			return component_manager->get_component<T>(entity);
 		}

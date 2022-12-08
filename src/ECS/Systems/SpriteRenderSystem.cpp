@@ -8,38 +8,53 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 {
 	if (entities.empty()) return;
 
-	/*
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	int count = 4;
-	for (int i = 0; i < count; ++i)
+	int size = 4;
+	for (int i = 0; i < size; ++i)
 	{
-		for (int j = 0; j < count; ++j)
+		for (int j = 0; j < size; ++j)
 		{
-			SDL_Rect rect;
-			rect.w = SCREEN_WIDTH / count;
-			rect.h = SCREEN_HEIGHT / count;
-			rect.x = rect.w * i;
-			rect.y = rect.h * j;
+			SDL_Rect cell;
+			float width = SCREEN_WIDTH / size;
+			float height = SCREEN_WIDTH / size;
 
-			SDL_RenderDrawRect(renderer, &rect);
+			float x = width * i;
+			float y = height * j;
+
+			Vec2 center;
+			cell.x = x;
+			cell.y = y;
+
+			cell.w = width;
+			cell.h = height;
+
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			SDL_RenderDrawRect(renderer, &cell);
 		}
 	}
-	*/
 
 	for (auto& entity : entities)
 	{
+		RenderData data;
 		// Todo: fetch and store components some other way, no need to do it each frame. create map with paired components?
 		auto const& transform = ECS::ECSManager::get_instance().get_component<Transform>(entity);
 		auto const& sprite = ECS::ECSManager::get_instance().get_component<Sprite>(entity);
 
-		SDL_Color color = sprite.color;
-		SDL_Rect rect;
-		rect.w = sprite.width;
-		rect.h = sprite.height;
-		rect.x = transform.position.x - sprite.width * 0.5;
-		rect.y = transform.position.y - sprite.height * 0.5;
+		data.position = transform.position;
+		data.width = sprite.width;
+		data.height = sprite.height;
+		data.color = sprite.color;
+		data_list.push_back(data);
+	}
 
-		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+	for (auto& data : data_list)
+	{
+		SDL_Rect rect;
+		rect.w = data.width;
+		rect.h = data.height;
+		rect.x = data.position.x - data.width * 0.5;
+		rect.y = data.position.y - data.height * 0.5;
+		SDL_SetRenderDrawColor(renderer, data.color.r, data.color.g, data.color.b, data.color.a);
 		SDL_RenderFillRect(renderer, &rect);
 	}
+	data_list.clear();
 }

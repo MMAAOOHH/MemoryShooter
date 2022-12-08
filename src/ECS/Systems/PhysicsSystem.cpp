@@ -5,7 +5,7 @@
 #include "../Components/Transform.h"
 #include "../Components/Physics.h"
 
-const float GRATIVTY = 0.00002f;
+//const float GRATIVTY = 0.00002f;
 
 void PhysicsSystem::update(float delta_time) 
 {

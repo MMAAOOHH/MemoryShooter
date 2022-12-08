@@ -29,7 +29,7 @@ namespace ECS
 		}
 
 		template<typename T, typename... Args>
-		void add_component(const Entity_ID entity, Args&&... args)
+		void add_component(const Entity entity, Args&&... args)
 		{
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 
@@ -41,14 +41,14 @@ namespace ECS
 		}
 
 		template<typename T>
-		void remove_component(const Entity_ID entity)
+		void remove_component(const Entity entity)
 		{
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 			get_component_list<T>()->erase(entity);
 		}
 
 		template<typename T>
-		T& get_component(const Entity_ID entity)
+		T& get_component(const Entity entity)
 		{
 			assert(entity < MAX_ENTITY_COUNT && "Entidy ID out of range!");
 			return get_component_list<T>()->get(entity);
@@ -62,7 +62,7 @@ namespace ECS
 			return component_types[type];
 		}
 
-		void entity_destroyed(Entity_ID entity)
+		void entity_destroyed(Entity entity)
 		{
 			for (auto const& pair : components_array)
 			{

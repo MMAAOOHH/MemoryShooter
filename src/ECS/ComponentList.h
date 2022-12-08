@@ -13,7 +13,7 @@ namespace ECS
 	public:
 		IComponentList() = default;
 		virtual ~IComponentList() = default;
-		virtual void erase(const Entity_ID entity){}
+		virtual void erase(const Entity entity){}
 	};
 
 	template<typename T>
@@ -35,7 +35,7 @@ namespace ECS
 			}
 		}
 
-		T& get(const Entity_ID entity)
+		T& get(const Entity entity)
 		{
 			// check list, if component id matches entity id (if entity has component)
 			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == entity; });
@@ -44,7 +44,7 @@ namespace ECS
 		}
 
 		// TODO: make more memory oriented structure
-		void erase(const Entity_ID entity) override final
+		void erase(const Entity entity) override final
 		{
 			// check list, if component id matches entity id (if entity has component)
 			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == entity; });

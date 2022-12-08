@@ -1,9 +1,18 @@
 #pragma once
 
+#include <vector>
+
 #include "../System.h"
 
 #include "../Components/Transform.h"
 #include "../Components/Sprite.h"
+
+struct RenderData
+{
+	Vec2 position;
+	float width, height;
+	SDL_Color color;
+};
 
 struct SpriteRenderSystem : ECS::System
 {
@@ -13,4 +22,6 @@ struct SpriteRenderSystem : ECS::System
 		}
 
 		void update(SDL_Renderer* renderer);
+
+		std::vector<RenderData> data_list;
 };

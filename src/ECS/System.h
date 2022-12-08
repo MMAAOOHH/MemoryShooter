@@ -9,7 +9,7 @@ namespace ECS
 
 	protected:
 		friend class SystemManager;
-		std::set<Entity_ID> entities;
+		std::set<Entity> entities;
 		//Entity_Signature signature;
 	};
 }
@@ -18,11 +18,11 @@ namespace ECS
 		System() = default;
 		virtual ~System() = default;
 
-		void add_entity(const Entity_ID entity)
+		void add_entity(const Entity entity)
 		{
 			entities.insert(entity);
 		}
-		void remove_entity(const Entity_ID entity)
+		void remove_entity(const Entity entity)
 		{
 			entities.erase(entity);
 		}
