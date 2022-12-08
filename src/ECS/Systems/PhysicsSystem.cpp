@@ -7,7 +7,17 @@
 
 //const float GRATIVTY = 0.00002f;
 
-void PhysicsSystem::update(float delta_time) 
+void PhysicsSystem::init()
+{
+	auto& manager = ECS::ECSManager::get_instance();
+	ECS::Signature signature;
+	signature.set(manager.get_component_type<Transform>(), true);
+	signature.set(manager.get_component_type<RigidBody>(), true);
+
+	manager.set_system_signature<PhysicsSystem>(signature);
+}
+
+void PhysicsSystem::update(const float delta_time) 
 {
 	if (entities.empty()) 
 		return;

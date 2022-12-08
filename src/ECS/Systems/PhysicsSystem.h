@@ -12,5 +12,6 @@ struct PhysicsSystem : ECS::System
 		std::cout << "PhysicsSystem created" << std::endl;
 	}
 
+	void init();
 	void update(float delta_time);
 };

@@ -42,6 +42,13 @@ namespace ECS
 			system_manager->remove_entity(entity);
 		}
 
+		void clean_destroyed()
+		{
+			for (auto& entity : entities_to_remove)
+				destroy_entity(entity);
+
+		}
+
 		// Components
 		template<typename T>
 		void register_component()
@@ -96,5 +103,7 @@ namespace ECS
 		std::unique_ptr<EntityManager> entity_manager;
 		std::unique_ptr<ComponentManager> component_manager;
 		std::unique_ptr<SystemManager> system_manager;
+
+		std::vector<Entity> entities_to_remove;
 	};
 }

@@ -21,7 +21,9 @@ struct SpriteRenderSystem : ECS::System
 			std::cout << "Render System created" << std::endl;
 		}
 
+		void init();
 		void update(SDL_Renderer* renderer);
 
+private:
 		std::vector<RenderData> data_list;
 };

@@ -4,6 +4,16 @@
 #include <SDL/SDL_render.h>
 #include "../../Common.h"
 
+void SpriteRenderSystem::init()
+{
+	auto& manager = ECS::ECSManager::get_instance();
+	ECS::Signature signature;
+	signature.set(manager.get_component_type<Transform>(), true);
+	signature.set(manager.get_component_type<Sprite>(), true);
+
+	manager.set_system_signature<SpriteRenderSystem>(signature);
+}
+
 void SpriteRenderSystem::update(SDL_Renderer* renderer)
 {
 	if (entities.empty()) return;

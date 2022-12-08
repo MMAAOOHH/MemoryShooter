@@ -155,6 +155,7 @@
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components\AABB.h" />
     <ClInclude Include="src\ECS\Components\Collider.h" />
+    <ClInclude Include="src\ECS\Components\Delete.h" />
     <ClInclude Include="src\ECS\Components\Enemy.h" />
     <ClInclude Include="src\ECS\Components\Health.h" />
     <ClInclude Include="src\ECS\Components\Physics.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\ECS\System.h" />
     <ClInclude Include="src\ECS\Systems\CollisionSystem.h" />
     <ClInclude Include="src\ECS\Systems\DamageSystem.h" />
+    <ClInclude Include="src\ECS\Systems\DeleteSystem.h" />
     <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\Systems\SpriteRenderSystem.h" />
     <ClInclude Include="src\ECS\Types.h" />

@@ -15,8 +15,10 @@
 #include "ECS/Components/Player.h"
 
 #include "Common.h"
+#include "ECS/Components/Delete.h"
 #include "ECS/Components/Enemy.h"
 #include "ECS/Systems/DamageSystem.h"
+#include "ECS/Systems/DeleteSystem.h"
 
 bool keys[SDL_NUM_SCANCODES]{ false };
 int DEFAULT_SPRITE_W = 32;
@@ -47,7 +49,7 @@ public:
             is_running = false;
         }
 
-        // ECS 
+        // ECS setup
         auto& manager = ECS::ECSManager::get_instance();
 
         // Register Components
@@ -61,15 +63,24 @@ public:
         manager.register_component<Weapon>();
         manager.register_component<Bullet>();
         manager.register_component<Health>();
+        manager.register_component<Delete>();
 
         // Register Systems
         render_system = manager.register_system<SpriteRenderSystem>();
         collision_system = manager.register_system<CollisionSystem>();
         physics_system = manager.register_system<PhysicsSystem>();
         damage_system = manager.register_system<DamageSystem>();
+        delete_system = manager.register_system<DeleteSystem>();
+
+        render_system->init();
+        collision_system->init();
+        physics_system->init();
+        damage_system->init();
+        delete_system->init();
 
         // Set System signatures
 
+        /*
         {
             // Collider
             ECS::Signature signature;
@@ -104,7 +115,7 @@ public:
 
             manager.set_system_signature<SpriteRenderSystem>(signature);
         }
-
+        */
 
         int entities = 1;
         srand(time(NULL));
@@ -136,9 +147,6 @@ public:
         player = &manager.get_component<Player>(p);
         player->init();
 
-        collision_system->init();
-
-        
     }
     void clean()
     {
@@ -160,11 +168,9 @@ public:
             Uint64 ticks = SDL_GetPerformanceCounter();
             Uint64 delta_ticks = ticks - previous_ticks;
 
-            // ------------
             handle_events();
             update(delta_time);
             render();
-            // ------------
 
             delta_time = static_cast<float>((delta_ticks)) / static_cast<float>(SDL_GetPerformanceFrequency());
             previous_ticks = ticks;
@@ -186,6 +192,7 @@ private:
     std::shared_ptr<CollisionSystem> collision_system;
     std::shared_ptr<PhysicsSystem> physics_system;
     std::shared_ptr<DamageSystem> damage_system;
+    std::shared_ptr<DeleteSystem> delete_system;
 
     Player* player;
 
@@ -224,11 +231,12 @@ private:
     void update(float delta_time)
     {
         player->update(delta_time);
-        // enemies->update();
-
+        // enemy_system->update();
         physics_system->update(delta_time);
         collision_system->update();
         damage_system->update();
+        
+        ECS::ECSManager::get_instance().clean_destroyed();
 
     }
     void render()
@@ -244,4 +252,3 @@ private:
         SDL_RenderPresent(renderer);
     }
 };
-

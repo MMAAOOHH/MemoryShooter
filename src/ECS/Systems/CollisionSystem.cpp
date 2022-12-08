@@ -14,7 +14,13 @@
 
 void CollisionSystem::init()
 {
-	//make_grid(size);
+	// Set system signature
+	auto& manager = ECS::ECSManager::get_instance();
+	ECS::Signature signature;
+	signature.set(manager.get_component_type<Transform>(), true);
+	signature.set(manager.get_component_type<Sprite>(), true);
+
+
 	// Create spatial grid
 	int size = 4;
 	int index = 0;
@@ -152,109 +158,7 @@ void CollisionSystem::update()
 		}
 	}
 
-	//std::cout << "Possible collisions: " << checks << std::endl;
-	/*
-	// Render spatial grid
-	SDL_SetRenderDrawColor(RENDERER, 255, 255, 255, 255);
-	for (auto& cell : spatial_grid)
-	{
-		SDL_Rect rect;
-		rect.x = cell.center.x - cell.width * 0.5;
-		rect.y = cell.center.y - cell.height * 0.5;
-		rect.w = cell.width;
-		rect.h = cell.height;
-
-		SDL_RenderDrawRect(RENDERER, &rect);
-		SDL_RenderPresent(RENDERER);
-	}
-	//SDL_RenderPresent(RENDERER);
-	*/
 }
-
-//void CollisionSystem::update_old()
-//{
-//	//auto start = std::chrono::high_resolution_clock::now();
-//	auto& manager = ECS::ECSManager::get_instance();
-//	std::unordered_map<std::bitset<32>, std::vector<ECS::Entity>> c_masks_temp_map;
-//
-//	// Set collision bit
-//	for (auto& entity : entities)
-//	{
-//		const Transform& transform = manager.get_component<Transform>(entity);
-//		auto& mask = manager.get_component<Collider>(entity).mask;
-//
-//		// Create box for entity
-//		const int width = transform.scale * DEFAULT_SPRITE_W;
-//		const int height = transform.scale * DEFAULT_SPRITE_H;
-//		AABB box = make_from_position_size_centered(transform.position.x, transform.position.y, width, height);
-//
-//		// Clear bits dedicated for grid
-//		mask &= 0xFFFF000;
-//		// Check for overlapping cells
-//		size_t index = 0;
-//		for (auto& cell : spatial_cells)
-//		{
-//			if (aabb_intersect(box, cell))
-//			{
-//				// Set collision bits with overlapping cell index
-//				mask |= (1ULL << index);
-//				//std::cout << "setting cell bit" << std::endl;
-//			}
-//			index++;
-//		}
-//
-//		c_masks_temp_map[mask].push_back(entity);
-//		transform_list_old.push_back(transform);
-//	}
-//
-//	//auto stop = std::chrono::high_resolution_clock::now();
-//	//auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-//	//std::cout << "Broad phase duration: " << duration.count() << std::endl;
-//
-//	// -----------
-//	// Narrow phase
-//	// -----------
-//	// Check AABB collisions
-//	int checks = 0;
-//	int collisions = 0;
-//	for (auto const& pair : c_masks_temp_map)
-//	{
-//		auto levels = pair.first.count();
-//		const auto& list = pair.second;
-//
-//		for (const auto& a : list)
-//		{
-//			for (const auto& b : list)
-//			{
-//				AABB box_a;
-//				AABB box_b;
-//
-//				{
-//					auto const& t = transform_list[a];
-//					int width = DEFAULT_SPRITE_W * t.scale;
-//					int height = DEFAULT_SPRITE_H * t.scale;
-//					box_a = make_from_position_size(t.position.x, t.position.y, width, height);
-//				}
-//				{
-//					auto const& t = transform_list[b];
-//					int width = DEFAULT_SPRITE_W * t.scale;
-//					int height = DEFAULT_SPRITE_H * t.scale;
-//					box_b = make_from_position_size(t.position.x, t.position.y, width, height);
-//				}
-//
-//				//if (&box_a == &box_b)
-//
-//				if (aabb_intersect(box_a, box_b))
-//				{
-//					collisions++;
-//				}
-//				checks++;
-//			}
-//		}
-//	}
-//}
-		
-
 
 	/*
 	// Render spatial grid

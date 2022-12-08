@@ -46,11 +46,10 @@ namespace ECS
 		// TODO: make more memory oriented structure
 		void erase(const Entity entity) override final
 		{
-			// check list, if component id matches entity id (if entity has component)
 			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == entity; });
 			if (comp != data.end())
 			{
-				// TODO: might be a slow operation. Just erasing the data at the index also fragments the list.
+				// TODO: Just erasing the data at the index also fragments the list.
 				data.erase(comp);
 			}
 		}

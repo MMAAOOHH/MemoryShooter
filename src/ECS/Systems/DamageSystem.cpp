@@ -2,9 +2,16 @@
 
 #include "DamageSystem.h"
 #include "../ECS.h"
+#include "../Components/Delete.h"
 
 void DamageSystem::init()
 {
+	auto& manager = ECS::ECSManager::get_instance();
+	ECS::Signature signature;
+	signature.set(manager.get_component_type<Collider>(), true);
+	signature.set(manager.get_component_type<Health>(), true);
+
+	manager.set_system_signature<DamageSystem>(signature);
 }
 
 void DamageSystem::update()
@@ -74,7 +81,7 @@ void DamageSystem::update()
 	}
 
 	// Deal damage to health components
-	for (auto h_comp : health_components)
+	for (auto& h_comp : health_components)
 	{
 		h_comp.current_health -= 1;
 
@@ -82,9 +89,11 @@ void DamageSystem::update()
 		{
 			// Kill entity
 			std::cout << "Entity died" << std::endl;
+			manager.entities_to_remove.push_back(h_comp.get_id());
 		}
 	}
 
+	// Clear for next update
 	collision_components.clear();
 	health_components.clear();
 }
