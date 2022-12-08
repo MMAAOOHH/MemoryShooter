@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ECS\Systems\CollisionSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\DamageSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\SpriteRenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -153,8 +154,9 @@
     <ClInclude Include="src\ECS\ComponentList.h" />
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components\AABB.h" />
-    <ClInclude Include="src\ECS\Components\Collision.h" />
+    <ClInclude Include="src\ECS\Components\Collider.h" />
     <ClInclude Include="src\ECS\Components\Enemy.h" />
+    <ClInclude Include="src\ECS\Components\Health.h" />
     <ClInclude Include="src\ECS\Components\Physics.h" />
     <ClInclude Include="src\ECS\Components\Controller.h" />
     <ClInclude Include="src\ECS\Components\Player.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="src\ECS\EntityManager.h" />
     <ClInclude Include="src\ECS\System.h" />
     <ClInclude Include="src\ECS\Systems\CollisionSystem.h" />
+    <ClInclude Include="src\ECS\Systems\DamageSystem.h" />
     <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\Systems\SpriteRenderSystem.h" />
     <ClInclude Include="src\ECS\Types.h" />

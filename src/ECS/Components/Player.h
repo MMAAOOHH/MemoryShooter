@@ -5,6 +5,7 @@
 #include "../Component.h"
 #include "../ECS.h"
 #include "Controller.h"
+#include "Health.h"
 #include "Transform.h"
 #include "Sprite.h"
 #include "Physics.h"
@@ -23,9 +24,12 @@ struct Player : ECS::Component
 		manager.add_component<Controller>(this->get_id());
 		manager.add_component<Transform>(this->get_id());
 		manager.add_component<Sprite>(this->get_id());
-		manager.add_component<Collision>(this->get_id());
+		manager.add_component<Collider>(this->get_id());
 		manager.add_component<RigidBody>(this->get_id());
 		manager.add_component<Weapon>(this->get_id());
+		manager.add_component<Health>(this->get_id());
+
+		manager.get_component<Collider>(this->get_id()).tag = Collider::player;
 	}
 
 	float weapon_wait = 0.5f;
@@ -62,7 +66,7 @@ struct Player : ECS::Component
 			weapon_wait += delta_time;
 			if (weapon_wait > 0.1f)
 			{
-				ECS::ECSManager::get_instance().get_component<Weapon>(this->get_id()).Shoot();
+				ECS::ECSManager::get_instance().get_component<Weapon>(this->get_id()).shoot({0, 1});
 				weapon_wait = 0;
 			}
 		}

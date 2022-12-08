@@ -3,7 +3,7 @@
 #include "../System.h"
 
 #include "../Components/Physics.h"
-#include "../Components/Collision.h"
+#include "../Components/Collider.h"
 
 struct PhysicsSystem : ECS::System
 {

@@ -15,6 +15,8 @@
 #include "ECS/Components/Player.h"
 
 #include "Common.h"
+#include "ECS/Components/Enemy.h"
+#include "ECS/Systems/DamageSystem.h"
 
 bool keys[SDL_NUM_SCANCODES]{ false };
 int DEFAULT_SPRITE_W = 32;
@@ -49,35 +51,30 @@ public:
         auto& manager = ECS::ECSManager::get_instance();
 
         // Register Components
+        manager.register_component<Player>();
+        manager.register_component<Enemy>();
         manager.register_component<Transform>();
         manager.register_component<Sprite>();
-        manager.register_component<Collision>();
+        manager.register_component<Collider>();
         manager.register_component<RigidBody>();
-        manager.register_component<Player>();
         manager.register_component<Controller>();
         manager.register_component<Weapon>();
         manager.register_component<Bullet>();
+        manager.register_component<Health>();
 
         // Register Systems
         render_system = manager.register_system<SpriteRenderSystem>();
-        aabb_system = manager.register_system<CollisionSystem>();
+        collision_system = manager.register_system<CollisionSystem>();
         physics_system = manager.register_system<PhysicsSystem>();
+        damage_system = manager.register_system<DamageSystem>();
 
         // Set System signatures
-        {
-            // Render
-            ECS::Signature signature;
-            signature.set(manager.get_component_type<Transform>(), true);
-            signature.set(manager.get_component_type<Sprite>(), true);
-
-            manager.set_system_signature<SpriteRenderSystem>(signature);
-        }
 
         {
-            // Collision
+            // Collider
             ECS::Signature signature;
             signature.set(manager.get_component_type<Transform>(), true);
-            signature.set(manager.get_component_type<Collision>(), true);
+            signature.set(manager.get_component_type<Collider>(), true);
 
             manager.set_system_signature<CollisionSystem>(signature);
         }
@@ -90,10 +87,26 @@ public:
             manager.set_system_signature<PhysicsSystem>(signature);
         }
 
+        {
+            // Damage
+            ECS::Signature signature;
+            signature.set(manager.get_component_type<Collider>(), true);
+            signature.set(manager.get_component_type<Health>(), true);
+
+            manager.set_system_signature<DamageSystem>(signature);
+        }
+
+        {
+            // Render
+            ECS::Signature signature;
+            signature.set(manager.get_component_type<Transform>(), true);
+            signature.set(manager.get_component_type<Sprite>(), true);
+
+            manager.set_system_signature<SpriteRenderSystem>(signature);
+        }
 
 
-        
-        int entities = 1000;
+        int entities = 1;
         srand(time(NULL));
         rand();
         for (int i = 0; i < entities; ++i)
@@ -109,10 +122,8 @@ public:
 
             const auto e = ECS::ECSManager::get_instance().create_entity();
 
-           manager.add_component<Transform>(e);
-           manager.add_component<Sprite>(e);
-           manager.add_component<Collision>(e);
-           //manager.add_component<RigidBody>(e);
+           manager.add_component<Enemy>(e);
+           manager.get_component<Enemy>(e).init();
 
            manager.get_component<Transform>(e).position = { (float)x, (float)y };
            manager.get_component<Sprite>(e).color = rand_color;
@@ -123,9 +134,9 @@ public:
         const auto p = ECS::ECSManager::get_instance().create_entity();
         manager.add_component<Player>(p);
         player = &manager.get_component<Player>(p);
-
         player->init();
-        aabb_system->init();
+
+        collision_system->init();
 
         
     }
@@ -161,7 +172,7 @@ public:
             // limit fps
             //SDL_Delay(4);
             // Show fps
-            std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
+            //std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
         }
     }
 
@@ -172,8 +183,10 @@ private:
     bool is_running = false;
 
     std::shared_ptr<SpriteRenderSystem> render_system;
-    std::shared_ptr<CollisionSystem> aabb_system;
+    std::shared_ptr<CollisionSystem> collision_system;
     std::shared_ptr<PhysicsSystem> physics_system;
+    std::shared_ptr<DamageSystem> damage_system;
+
     Player* player;
 
     void handle_events()
@@ -211,8 +224,11 @@ private:
     void update(float delta_time)
     {
         player->update(delta_time);
+        // enemies->update();
+
         physics_system->update(delta_time);
-        aabb_system->update();
+        collision_system->update();
+        damage_system->update();
 
     }
     void render()

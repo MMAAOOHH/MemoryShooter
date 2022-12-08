@@ -7,7 +7,7 @@
 #include "../System.h"
 
 #include "../Components/AABB.h"
-#include "../Components/Collision.h"
+#include "../Components/Collider.h"
 #include "../Components/Transform.h"
 #include "../../Math.h"
 
@@ -47,6 +47,7 @@ struct CollisionSystem : ECS::System
 
 	void init();
 	void update();
+	void update_old();
 
 private:
 	
@@ -57,20 +58,17 @@ private:
 	AABB make_from_position_size_centered(float x, float y, float w, float h);
 	bool aabb_intersect(const AABB& a, const AABB& b);
 
-	//int map_to_cell(Vec2 v2);
-
-	std::vector<AABB> spatial_cells;
-
-	std::vector<AABB> make_grid(int size);
 
 	// New
 	SpatialCell spatial_grid[16]{};
 	std::vector<ECS::Entity> cell_id_lists[16]{};
 	std::unordered_map<ECS::Entity, Transform> transform_list;
-	std::unordered_map<ECS::Entity, Collision> collider_list;
-
+	std::unordered_map<ECS::Entity, Collider> collider_list;
+	std::set<ECS::Entity> did_collide_set;
 
 	// old
-	//std::vector<Transform> transform_list;
+	std::vector<Transform> transform_list_old;
 	std::vector<AABB> aabb_list;
+	std::vector<AABB> spatial_cells;
+	std::vector<AABB> make_grid(int size);
 };
