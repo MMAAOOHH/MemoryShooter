@@ -21,16 +21,18 @@ struct Player : ECS::Component
 	{
 		auto& manager = ECS::ECSManager::get_instance();
 
-		manager.add_component<Controller>(this->get_id());
-		manager.add_component<Transform>(this->get_id());
-		manager.add_component<Sprite>(this->get_id());
-		manager.add_component<Collider>(this->get_id());
-		manager.add_component<RigidBody>(this->get_id());
-		manager.add_component<Weapon>(this->get_id());
-		manager.add_component<Health>(this->get_id());
+		const auto& id = this->entity_id;
 
-		manager.get_component<Collider>(this->get_id()).tag = player;
-		manager.get_component<Health>(this->get_id()).current_health = 10;
+		manager.add_component<Controller>(id);
+		manager.add_component<Transform>(id);
+		manager.add_component<Sprite>(id);
+		manager.add_component<Collider>(id);
+		manager.add_component<RigidBody>(id);
+		manager.add_component<Weapon>(id);
+		manager.add_component<Health>(id);
+
+		manager.get_component<Collider>(id).tag = player;
+		manager.get_component<Health>(id).current_health = 10;
 	}
 
 	float weapon_wait = 0.5f;
@@ -59,7 +61,7 @@ struct Player : ECS::Component
 			direction.x = 1;
 		}
 
-		auto& controller = ECS::ECSManager::get_instance().get_component<Controller>(this->get_id());
+		auto& controller = ECS::ECSManager::get_instance().get_component<Controller>(this->entity_id);
 		controller.move(direction * move_speed, delta_time);
 
 		if ((keys[SDL_SCANCODE_SPACE]))
@@ -67,7 +69,7 @@ struct Player : ECS::Component
 			weapon_wait += delta_time;
 			if (weapon_wait > 0.1f)
 			{
-				ECS::ECSManager::get_instance().get_component<Weapon>(this->get_id()).shoot({0, 1});
+				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, 1});
 				weapon_wait = 0;
 			}
 		}

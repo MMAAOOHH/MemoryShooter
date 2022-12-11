@@ -7,14 +7,32 @@
 #include "../Component.h"
 #include "../ECS.h"
 
+
+struct EnemyAction
+{
+	enum Type
+	{
+		left,
+		right,
+		up,
+		down,
+		down_left,
+		down_right,
+		up_left,
+		up_right,
+		shoot
+	};
+
+	Type action_type;
+	float duration;
+};
+
 struct Enemy : ECS::Component
 {
-	float move_speed = 300;
-
 	void init()
 	{
 		auto& manager = ECS::ECSManager::get_instance();
-		const auto id = this->get_id();
+		const auto id = this->entity_id;
 
 		manager.add_component<Controller>(id);
 		manager.add_component<Transform>(id);
@@ -25,26 +43,11 @@ struct Enemy : ECS::Component
 		manager.add_component<Weapon>(id);
 
 		manager.get_component<Collider>(id).tag = enemy_projectile;
-
+		controller = &manager.get_component<Controller>(id);
 		weapon = &manager.get_component<Weapon>(id);
+	}
 
-	}
-	float wait = 0.0f;
-	void update(const float delta_time)
-	{
-		Vec2 direction;
-		wait += delta_time;
-		//std::cout << time << std::endl;
-		if (wait >= 2)
-		{
-			auto& controller = ECS::ECSManager::get_instance().get_component<Controller>(this->get_id());
-			direction.x = -1;
-			controller.move(direction * move_speed, delta_time);
-		}
-		if (wait >= 2.2f)
-		{
-			wait = 0;
-		}
-	}
 	Weapon* weapon;
+	Controller* controller;
+	std::vector<EnemyAction> actions;
 };

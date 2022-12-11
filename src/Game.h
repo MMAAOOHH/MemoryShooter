@@ -77,46 +77,7 @@ public:
         damage_system->init();
         enemy_system->init();
 
-        // Set System signatures
-
-        /*
-        {
-            // Collider
-            ECS::Signature signature;
-            signature.set(manager.get_component_type<Transform>(), true);
-            signature.set(manager.get_component_type<Collider>(), true);
-
-            manager.set_system_signature<CollisionSystem>(signature);
-        }
-        {
-            // Physics
-            ECS::Signature signature;
-            signature.set(manager.get_component_type<Transform>(), true);
-            signature.set(manager.get_component_type<RigidBody>(), true);
-
-            manager.set_system_signature<PhysicsSystem>(signature);
-        }
-
-        {
-            // Damage
-            ECS::Signature signature;
-            signature.set(manager.get_component_type<Collider>(), true);
-            signature.set(manager.get_component_type<Health>(), true);
-
-            manager.set_system_signature<DamageSystem>(signature);
-        }
-
-        {
-            // Render
-            ECS::Signature signature;
-            signature.set(manager.get_component_type<Transform>(), true);
-            signature.set(manager.get_component_type<Sprite>(), true);
-
-            manager.set_system_signature<SpriteRenderSystem>(signature);
-        }
-        */
-
-        int entities = 1000;
+        int entities = 500;
         srand(time(NULL));
         rand();
         for (int i = 0; i < entities; ++i)
@@ -176,9 +137,6 @@ public:
             if (delta_time > 1) delta_time = 0; // accounts for weird fluctuation at startup
             previous_ticks = ticks;
 
-
-            time += delta_time;
-           
             // limit fps
             //SDL_Delay(4);
             // Show fps

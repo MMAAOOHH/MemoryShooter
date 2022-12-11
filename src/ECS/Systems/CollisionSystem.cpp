@@ -105,8 +105,8 @@ void CollisionSystem::update()
 		{
 			for (auto& b : list)
 			{
-				const auto id_a = a.first.get_id();
-				const auto id_b = b.first.get_id();
+				const auto id_a = a.first.entity_id;
+				const auto id_b = b.first.entity_id;
 
 				// Skip self id
 				if (id_a == id_b) continue;
@@ -117,7 +117,7 @@ void CollisionSystem::update()
 				// Skips checking for collisions for the same tag
 				if (a_tag == b_tag) continue;
 
-				// Collision checks
+				// Collision check
 				// ----------------
 				const Transform& t_a = a.first;
 				const Transform& t_b = b.first;
@@ -135,9 +135,7 @@ void CollisionSystem::update()
 				{
 					manager.add_component<Collision>(id_a, a_tag, b_tag);
 					//manager.add_component<Collision>(id_b, b_tag, a_tag);
-					//collisions++;
 				}
-				//checks++;
 			}
 		}
 	}

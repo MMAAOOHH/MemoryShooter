@@ -19,25 +19,17 @@ void DamageSystem::update()
 
 	auto& manager = ECS::ECSManager::get_instance();
 
-	// Store collision components that has collision
+	// Get collision components
 	for (const auto& entity : entities)
 	{
 		auto& c_comp = manager.get_component<Collision>(entity);
-
-		//std::cout << c_comp.collision << std::endl;
-
-		/*
-		if (c_comp.collision == false) 
-			continue;
-	*/
 		collision_components.push_back(c_comp);
 	}
 
-	if (collision_components.empty()) return;
-	// Handle collision types, get relevant health components
+	// Handle collision types
 	for (auto& c_comp : collision_components)
 	{
-		const auto id = c_comp.get_id();
+		const auto id = c_comp.entity_id;
 		const auto tag = c_comp.this_tag;
 		const auto collision_from = c_comp.from_tag;
 
@@ -83,7 +75,7 @@ void DamageSystem::update()
 		}
 	}
 
-	// Deal damage to health components
+	// Deal damage
 	for (auto& h_comp : health_components)
 	{
 		h_comp.current_health -= 1;
@@ -92,7 +84,7 @@ void DamageSystem::update()
 		{
 			// Kill entity
 			std::cout << "Entity died" << std::endl;
-			manager.entities_to_remove.push_back(h_comp.get_id());
+			manager.entities_to_remove.push_back(h_comp.entity_id);
 		}
 	}
 

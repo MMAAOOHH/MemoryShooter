@@ -11,13 +11,6 @@
 #include "../Components/Transform.h"
 #include "../../Math.h"
 
-struct CollisionData
-{
-	Transform transform;
-	Collider collider;
-	ECS::Entity id;
-};
-
 struct AABB
 {
 	float x_min;
@@ -47,7 +40,6 @@ struct CollisionSystem : ECS::System
 
 	void init();
 	void update();
-	void update_old();
 
 private:
 	

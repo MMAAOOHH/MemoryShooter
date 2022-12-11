@@ -25,7 +25,7 @@ namespace ECS
 		void insert(const T& component)
 		{
 			// check list, if component id matches existing id, if not add to list
-			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == component.get_id(); });
+			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.entity_id == component.entity_id; });
 			if (comp == data.end())
 			{
 
@@ -36,7 +36,7 @@ namespace ECS
 		T& get(const Entity entity)
 		{
 			// check list, if component id matches entity id (if entity has component)
-			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == entity; });
+			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.entity_id == entity; });
 			assert(comp != data.end() && "Trying to get non-existing component!");
 			return *comp;
 		}
@@ -44,7 +44,7 @@ namespace ECS
 		// TODO: make more memory oriented structure
 		void erase(const Entity entity) override final
 		{
-			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.get_id() == entity; });
+			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.entity_id == entity; });
 			if (comp != data.end())
 			{
 				// TODO: Just erasing the data at the index also fragments the list.

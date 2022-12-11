@@ -14,7 +14,7 @@ struct PhysicsSystem : ECS::System
 		Vec2 position;
 		Vec2 acceleration;
 		Vec2 velocity;
-		float friction = 0;
+		float friction;
 	};
 
 	void init();
