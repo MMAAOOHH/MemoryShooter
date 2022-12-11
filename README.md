@@ -1,16 +1,16 @@
 # MemoryShooter
-A small 2d Space Shooter done with SDL 
+Small 2d Space Shooter done with SDL 
+
+### Performance focus / Data-orientation in the project:   
+ECS, components just being structs of data, systems transforming the data  
+Continous profiling throughout the project, trying to reduce unnecessary jumps around in memory.  
+Each system only gathering the data it needs  
+Collisions split up between `Broad and Narrow`-phase reducing amount of collision checks  
+
+
 
 TODO:  
-handle input  
-collision "callbacks"  
-weapon components  
 enemies  
-spawn waves  
-
-
-To look into:  
-Spatial hash grid or other collision optimization -    
-http://buildnewgames.com/broad-phase-collision-detection/  
-https://www.youtube.com/watch?v=sx4IIQL0x7c  
-
+spawn waves    
+weapons  
+clean up input  
