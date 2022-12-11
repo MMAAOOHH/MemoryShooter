@@ -7,7 +7,7 @@ Continous profiling throughout the project, trying to reduce unnecessary jumps a
 Each system only gathering the data it needs  
 Collisions split up between Broad and Narrow-phase reducing amount of collision checks  
 
-Other topics researched, not implemented:  
+###Other topics researched, not implemented:  
 Cache coherence - SoA vs AoS  
 SIMD  
 
