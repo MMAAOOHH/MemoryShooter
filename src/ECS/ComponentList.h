@@ -20,8 +20,6 @@ namespace ECS
 	class ComponentList : public IComponentList
 	{
 	public:
-		ComponentList() = default;
-		~ComponentList() = default;
 
 		// TODO: make more memory oriented structure. 
 		void insert(const T& component)

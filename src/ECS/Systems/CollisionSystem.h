@@ -11,6 +11,12 @@
 #include "../Components/Transform.h"
 #include "../../Math.h"
 
+struct CollisionData
+{
+	Transform transform;
+	Collider collider;
+	ECS::Entity id;
+};
 
 struct AABB
 {
@@ -22,15 +28,9 @@ struct AABB
 
 struct SpatialCell
 {
-	Vec2 top_left;
-	Vec2 top_right;
-	Vec2 bot_left;
-	Vec2 bot_right;
-
 	Vec2 center;
-	float width;
-	float height;
-
+	float width = 0;
+	float height = 0;
 };
 
 struct rect
@@ -58,13 +58,14 @@ private:
 	AABB make_from_position_size_centered(float x, float y, float w, float h);
 	bool aabb_intersect(const AABB& a, const AABB& b);
 
-
 	// New
 	SpatialCell spatial_grid[16]{};
-	std::vector<ECS::Entity> cell_id_lists[16]{};
-	std::unordered_map<ECS::Entity, Transform> transform_list;
-	std::unordered_map<ECS::Entity, Collider> collider_list;
-	std::set<ECS::Entity> did_collide_set;
+	std::vector<std::pair<Transform, Collider>>  cell_lists_array[16]{};
+	std::vector<Transform> transform_list;
+	std::unordered_map<ECS::Entity, Collider> collider_map;
+	std::vector<std::pair<Transform, Collider>> data_list;
+
+	std::vector<ECS::Entity> did_collide;
 
 	// old
 	std::vector<Transform> transform_list_old;

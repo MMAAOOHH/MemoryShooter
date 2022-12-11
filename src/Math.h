@@ -63,5 +63,7 @@ inline float lerp(float a, float b, float t)
 
 //inline Vec2 lerp(Vec2 a, Vec2 b, float t)
 //{
-//	return a + t * (b - a);
+//	float x = a.x + t * (b.x - a.x);
+//	float y = a.y + t * (b.y - a.y);
+//	return Vec2
 //}

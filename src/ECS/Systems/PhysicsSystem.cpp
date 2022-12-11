@@ -17,27 +17,39 @@ void PhysicsSystem::init()
 	manager.set_system_signature<PhysicsSystem>(signature);
 }
 
+bool PhysicsSystem::validate_data_list_length()
+{
+	return entities.size() == data_list.size();
+}
+
+void PhysicsSystem::get_physics_data()
+{
+	for (auto& id : entities)
+	{
+		PhysicsData data;
+
+		auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(id);
+		auto& rb = ECS::ECSManager::get_instance().get_component<RigidBody>(id);
+
+		data.velocity = rb.velocity;
+		data.acceleration = rb.acceleration;
+		data.position = transform.position;
+
+		data_list.push_back(data);
+	}
+}
+
 void PhysicsSystem::update(const float delta_time) 
 {
-	if (entities.empty()) 
-		return;
-
-	for (auto& entity : entities)
+	if (entities.empty()) return;
+	for (auto& id : entities)
 	{
-		auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(entity);
-		auto& rigid_body = ECS::ECSManager::get_instance().get_component<RigidBody>(entity);
+		auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(id);
+		auto& rb = ECS::ECSManager::get_instance().get_component<RigidBody>(id);
 
-		rigid_body.acceleration += rigid_body.velocity * -rigid_body.friction;
-
-		transform.position += rigid_body.velocity * delta_time + rigid_body.acceleration * 0.5 * delta_time * delta_time;
-
-		rigid_body.velocity += rigid_body.acceleration * delta_time;
-
-		rigid_body.acceleration = { 0,0 };
-
-		if (!rigid_body.use_gravity)
-			return;
-
-		//rigid_body.velocity.y += GRATIVTY * delta_time;
+		rb.acceleration += rb.velocity * -rb.friction;
+		transform.position += rb.velocity * delta_time + rb.acceleration * 0.5 * delta_time * delta_time;
+		rb.velocity += rb.acceleration * delta_time;
+		rb.acceleration = { 0,0 };
 	}
 }

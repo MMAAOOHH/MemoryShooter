@@ -155,13 +155,13 @@
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components\AABB.h" />
     <ClInclude Include="src\ECS\Components\Collider.h" />
-    <ClInclude Include="src\ECS\Components\Delete.h" />
     <ClInclude Include="src\ECS\Components\Enemy.h" />
     <ClInclude Include="src\ECS\Components\Health.h" />
     <ClInclude Include="src\ECS\Components\Physics.h" />
     <ClInclude Include="src\ECS\Components\Controller.h" />
     <ClInclude Include="src\ECS\Components\Player.h" />
     <ClInclude Include="src\ECS\Components\Sprite.h" />
+    <ClInclude Include="src\ECS\Components\Timer.h" />
     <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="src\ECS\Components\Weapon.h" />
     <ClInclude Include="src\ECS\ECS.h" />
@@ -169,9 +169,10 @@
     <ClInclude Include="src\ECS\System.h" />
     <ClInclude Include="src\ECS\Systems\CollisionSystem.h" />
     <ClInclude Include="src\ECS\Systems\DamageSystem.h" />
-    <ClInclude Include="src\ECS\Systems\DeleteSystem.h" />
+    <ClInclude Include="src\ECS\Systems\EnemySystem.h" />
     <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
     <ClInclude Include="src\ECS\Systems\SpriteRenderSystem.h" />
+    <ClInclude Include="src\ECS\Systems\TimerSystem.h" />
     <ClInclude Include="src\ECS\Types.h" />
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\Game.h" />

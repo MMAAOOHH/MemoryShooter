@@ -2,13 +2,12 @@
 
 #include "DamageSystem.h"
 #include "../ECS.h"
-#include "../Components/Delete.h"
 
 void DamageSystem::init()
 {
-	auto& manager = ECS::ECSManager::get_instance();
 	ECS::Signature signature;
-	signature.set(manager.get_component_type<Collider>(), true);
+	auto& manager = ECS::ECSManager::get_instance();
+	signature.set(manager.get_component_type<Collision>(), true);
 	signature.set(manager.get_component_type<Health>(), true);
 
 	manager.set_system_signature<DamageSystem>(signature);
@@ -23,10 +22,14 @@ void DamageSystem::update()
 	// Store collision components that has collision
 	for (const auto& entity : entities)
 	{
-		auto& c_comp = manager.get_component<Collider>(entity);
+		auto& c_comp = manager.get_component<Collision>(entity);
 
+		//std::cout << c_comp.collision << std::endl;
+
+		/*
 		if (c_comp.collision == false) 
 			continue;
+	*/
 		collision_components.push_back(c_comp);
 	}
 
@@ -35,14 +38,14 @@ void DamageSystem::update()
 	for (auto& c_comp : collision_components)
 	{
 		const auto id = c_comp.get_id();
-		const auto tag = c_comp.tag;
-		const auto collision_from = c_comp.from;
+		const auto tag = c_comp.this_tag;
+		const auto collision_from = c_comp.from_tag;
 
 		switch (tag)
 		{
-			case Collider::player :
-				if (collision_from == Collider::player || collision_from == Collider::player_projectile) 
-					continue;;
+			case player :
+				if (collision_from == player || collision_from == player_projectile) 
+					continue;
 				{
 					const auto h_comp = manager.get_component<Health>(id);
 					health_components.push_back(h_comp);
@@ -50,8 +53,8 @@ void DamageSystem::update()
 
 				break;
 
-			case Collider::player_projectile:
-				if (collision_from == Collider::player || collision_from == Collider::player_projectile)
+			case player_projectile:
+				if (collision_from == player || collision_from == player_projectile)
 					continue;
 				{
 					const auto h_comp = manager.get_component<Health>(id);
@@ -59,8 +62,8 @@ void DamageSystem::update()
 				}
 				break;
 
-			case Collider::enemy:
-				if (collision_from == Collider::enemy || collision_from == Collider::enemy_projectile)
+			case enemy:
+				if (collision_from == enemy || collision_from == enemy_projectile)
 					continue;
 				{
 					const auto h_comp = manager.get_component<Health>(id);
@@ -69,8 +72,8 @@ void DamageSystem::update()
 				break;
 
 
-			case Collider::enemy_projectile:
-				if (collision_from == Collider::enemy || collision_from == Collider::enemy_projectile)
+			case enemy_projectile:
+				if (collision_from == enemy || collision_from == enemy_projectile)
 					continue;
 				{
 					const auto h_comp = manager.get_component<Health>(id);

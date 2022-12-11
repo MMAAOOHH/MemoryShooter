@@ -107,10 +107,13 @@
     <ClInclude Include="src\ECS\Systems\DamageSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Components\Delete.h">
+    <ClInclude Include="src\ECS\Components\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Systems\DeleteSystem.h">
+    <ClInclude Include="src\ECS\Systems\TimerSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECS\Systems\EnemySystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

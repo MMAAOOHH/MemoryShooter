@@ -15,10 +15,9 @@
 #include "ECS/Components/Player.h"
 
 #include "Common.h"
-#include "ECS/Components/Delete.h"
 #include "ECS/Components/Enemy.h"
 #include "ECS/Systems/DamageSystem.h"
-#include "ECS/Systems/DeleteSystem.h"
+#include "ECS/Systems/EnemySystem.h"
 
 bool keys[SDL_NUM_SCANCODES]{ false };
 int DEFAULT_SPRITE_W = 32;
@@ -58,25 +57,25 @@ public:
         manager.register_component<Transform>();
         manager.register_component<Sprite>();
         manager.register_component<Collider>();
+        manager.register_component<Collision>();
         manager.register_component<RigidBody>();
         manager.register_component<Controller>();
         manager.register_component<Weapon>();
-        manager.register_component<Bullet>();
+        manager.register_component<Projectile>();
         manager.register_component<Health>();
-        manager.register_component<Delete>();
 
         // Register Systems
         render_system = manager.register_system<SpriteRenderSystem>();
         collision_system = manager.register_system<CollisionSystem>();
         physics_system = manager.register_system<PhysicsSystem>();
         damage_system = manager.register_system<DamageSystem>();
-        delete_system = manager.register_system<DeleteSystem>();
+        enemy_system = manager.register_system<EnemySystem >();
 
         render_system->init();
         collision_system->init();
         physics_system->init();
         damage_system->init();
-        delete_system->init();
+        enemy_system->init();
 
         // Set System signatures
 
@@ -117,7 +116,7 @@ public:
         }
         */
 
-        int entities = 1;
+        int entities = 1000;
         srand(time(NULL));
         rand();
         for (int i = 0; i < entities; ++i)
@@ -163,6 +162,7 @@ public:
         float delta_time = 0.f;
         Uint64 previous_ticks = 0;
 
+        float time = 0;
         while (is_running)
         {
             Uint64 ticks = SDL_GetPerformanceCounter();
@@ -172,13 +172,18 @@ public:
             update(delta_time);
             render();
 
-            delta_time = static_cast<float>((delta_ticks)) / static_cast<float>(SDL_GetPerformanceFrequency());
+            delta_time = static_cast<float>(delta_ticks) / static_cast<float>(SDL_GetPerformanceFrequency());
+            if (delta_time > 1) delta_time = 0; // accounts for weird fluctuation at startup
             previous_ticks = ticks;
 
+
+            time += delta_time;
+           
             // limit fps
             //SDL_Delay(4);
             // Show fps
-            //std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
+            std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
+            //std::cout << "time: " << std::to_string(time) << std::endl;
         }
     }
 
@@ -188,11 +193,11 @@ private:
     SDL_Renderer* renderer;
     bool is_running = false;
 
-    std::shared_ptr<SpriteRenderSystem> render_system;
-    std::shared_ptr<CollisionSystem> collision_system;
+    std::shared_ptr<EnemySystem> enemy_system;
     std::shared_ptr<PhysicsSystem> physics_system;
     std::shared_ptr<DamageSystem> damage_system;
-    std::shared_ptr<DeleteSystem> delete_system;
+    std::shared_ptr<CollisionSystem> collision_system;
+    std::shared_ptr<SpriteRenderSystem> render_system;
 
     Player* player;
 
@@ -203,23 +208,23 @@ private:
         {
 	        switch (event.type)
 	        {
-	        case SDL_QUIT :
-                is_running = false;
-                break;
+	            case SDL_QUIT :
+                    is_running = false;
+                    break;
 
-	        case SDL_KEYDOWN:
-            {
-                const int scan_code = event.key.keysym.scancode;
-                keys[scan_code] = true;
-                break;
-            }
+	            case SDL_KEYDOWN:
+                {
+                    const int scan_code = event.key.keysym.scancode;
+                    keys[scan_code] = true;
+                    break;
+                }
 
-            case SDL_KEYUP:
-            {
-                const int scan_code = event.key.keysym.scancode;
-                keys[scan_code] = false;
-                break;
-            }
+                case SDL_KEYUP:
+                {
+                    const int scan_code = event.key.keysym.scancode;
+                    keys[scan_code] = false;
+                    break;
+                }
 	        }
         }
         if (event.type == SDL_QUIT)
@@ -231,24 +236,21 @@ private:
     void update(float delta_time)
     {
         player->update(delta_time);
-        // enemy_system->update();
+        enemy_system->update(delta_time);
         physics_system->update(delta_time);
         collision_system->update();
         damage_system->update();
-        
+
         ECS::ECSManager::get_instance().clean_destroyed();
 
     }
     void render()
     {
-        // Set background colour and clear 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
         SDL_RenderClear(renderer);
 
-        // Render entities
         render_system->update(renderer);
 
-        // Swap buffers
-        SDL_RenderPresent(renderer);
+    	SDL_RenderPresent(renderer);
     }
 };

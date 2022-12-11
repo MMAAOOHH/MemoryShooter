@@ -56,11 +56,11 @@ namespace ECS
 			component_manager->register_component<T>();
 		}
 
-		template<typename T>
-		void add_component(const Entity entity)
+		template<typename T, typename... Args>
+		void add_component(const Entity entity, Args&&... args)
 		{
 			// Adds the component to managers component list
-			component_manager->add_component<T>(entity);
+			component_manager->add_component<T>(entity, std::forward<Args>(args)...);
 
 			// Gets signature for entity
 			auto signature = entity_manager->get_entity_signature(entity);

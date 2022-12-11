@@ -29,7 +29,7 @@ struct Player : ECS::Component
 		manager.add_component<Weapon>(this->get_id());
 		manager.add_component<Health>(this->get_id());
 
-		manager.get_component<Collider>(this->get_id()).tag = Collider::player;
+		manager.get_component<Collider>(this->get_id()).tag = player;
 		manager.get_component<Health>(this->get_id()).current_health = 10;
 	}
 

@@ -2,16 +2,22 @@
 
 #include "../Component.h"
 
+enum Tag
+{
+	player,
+	enemy,
+	player_projectile,
+	enemy_projectile
+};
+
 struct Collider : ECS::Component
 {
-	enum Tag
-	{
-		player,
-		enemy,
-		player_projectile,
-		enemy_projectile
-	};
 	Tag tag;
-	Tag from;
-	bool collision = false;
+};
+
+struct Collision : ECS::Component
+{
+	Collision(Tag tag, Tag from) : this_tag(tag), from_tag(from){}
+	Tag this_tag;
+	Tag from_tag;
 };

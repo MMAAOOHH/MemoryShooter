@@ -7,42 +7,46 @@
 #include "Sprite.h"
 
 
-struct Bullet : ECS::Component
+struct Projectile : ECS::Component
 {
-	Vec2 direction;
-	float speed;
+	Vec2 spawn_pos;
+	Vec2 direction = { 0,0 };
+	float move_speed = 1.f;
+
 
 	void init()
 	{
 		auto& manager = ECS::ECSManager::get_instance();
-		manager.add_component<Transform>(this->get_id());
-		manager.add_component<Sprite>(this->get_id());
-		manager.add_component<RigidBody>(this->get_id());
-		manager.add_component<Collider>(this->get_id());
+		const auto id = this->get_id();
 
-		manager.get_component<Sprite>(this->get_id()).width = 4;
-		manager.get_component<Sprite>(this->get_id()).height = 4;
+		manager.add_component<Transform>(id);
+		manager.add_component<RigidBody>(id);
+		manager.add_component<Collider>(id);
+		manager.add_component<Sprite>(id);
 
-		manager.get_component<RigidBody>(this->get_id()).friction = 0.f;
-		manager.get_component<RigidBody>(this->get_id()).velocity = direction * speed;
+		auto& rb = manager.get_component<RigidBody>(id);
+		auto& t = manager.get_component<Transform>(id);
+
+		t.position = spawn_pos;
+		rb.velocity = direction * move_speed;
+		rb.friction = 0.f;
 	}
 };
 
 struct Weapon : ECS::Component
 {
-
 	float cool_down = 0.5f;
 
-	void shoot(Vec2 direction)
+	void shoot(const Vec2 direction)
 	{
 		auto& manager = ECS::ECSManager::get_instance();
-		auto bullet = manager.create_entity();
-		manager.add_component<Bullet>(bullet);
-		manager.get_component<Bullet>(bullet).init();
+		const auto id = manager.create_entity();
 
-		auto const spawn_pos = manager.get_component<Transform>(this->get_id()).position;
-		manager.get_component<Transform>(bullet).position = spawn_pos;
-		
+		manager.add_component<Projectile>(id);
+		auto& proj = manager.get_component<Projectile>(id);
+		proj.direction = direction;
+		proj.spawn_pos = manager.get_component<Transform>(this->get_id()).position;
+		proj.init();
 	}
 };
 
