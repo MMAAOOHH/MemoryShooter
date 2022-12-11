@@ -1,7 +1,7 @@
 # MemoryShooter
 Small 2d Space Shooter done with SDL 
 
-### Performance focus / Data-orientation in the project:   
+### Performance / Data oriented -practices in the project:   
 ECS, components just being structs of data, systems transforming the data  
 Continous profiling throughout the project, trying to reduce unnecessary jumps around in memory.  
 Each system only gathering the data it needs  
