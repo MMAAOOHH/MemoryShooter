@@ -8,9 +8,8 @@ Each system only gathering the data it needs
 Collisions split up between Broad and Narrow-phase reducing amount of collision checks  
 
 Other topics researched, not implemented:  
-
-Cache coherence - SoA vs AoS
-SIMD
+Cache coherence - SoA vs AoS  
+SIMD  
 
 TODO:  
 enemies  
