@@ -28,7 +28,6 @@ namespace ECS
 			auto comp = std::find_if(data.begin(), data.end(), [&](const T& c) { return c.entity_id == component.entity_id; });
 			if (comp == data.end())
 			{
-
 				data.push_back(component);
 			}
 		}

@@ -12,6 +12,27 @@ struct Vec2
 	float x;
 	float y;
 
+	void normalized() 
+	{
+		float length = sqrt((x * x) + (y * y));
+		x /= length;
+		y /= length;
+	}
+
+	void normalize(Vec2& my_vec)
+	{
+		float length = sqrt((x * x) + (y * y));
+		my_vec.x = my_vec.x / length;
+		my_vec.y = my_vec.y / length;
+	}
+
+	//Vec2 normalize(Vec2 const& v)
+	//{
+	//	float length = sqrt((v.x * v.x) + (v.y * v.y));
+	//	return Vec2(v.x / length, v.y / length);
+	//}
+
+
 	// Operator overloads
 	Vec2 operator+(Vec2 const& v) const
 	{
@@ -43,6 +64,7 @@ struct Vec2
 	{
 		return Vec2(x * v.x, y * v.y);
 	}
+
 	Vec2 operator*(float const& scalar) const
 	{
 		return Vec2(x * scalar, y * scalar);

@@ -30,6 +30,9 @@
     <ClCompile Include="src\ECS\Systems\DamageSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ECS\Systems\EnemySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Types.h">
@@ -89,7 +92,7 @@
     <ClInclude Include="src\ECS\Components\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Components\Player.h">
+    <ClInclude Include="src\ECS\Components\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\Components\Enemy.h">

@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Transform.h"
 #include "Controller.h"
+#include "Weapon.h"
 #include "../Component.h"
 #include "../ECS.h"
 
@@ -20,11 +21,12 @@ struct EnemyAction
 		down_right,
 		up_left,
 		up_right,
-		shoot
+		shoot,
+		wait
 	};
 
 	Type action_type;
-	float duration;
+	float duration = 1.0f;
 };
 
 struct Enemy : ECS::Component
@@ -41,13 +43,39 @@ struct Enemy : ECS::Component
 		manager.add_component<Sprite>(id);
 		manager.add_component<Health>(id);
 		manager.add_component<Weapon>(id);
+		manager.get_component<Collider>(id).tag = enemy;
 
-		manager.get_component<Collider>(id).tag = enemy_projectile;
-		controller = &manager.get_component<Controller>(id);
-		weapon = &manager.get_component<Weapon>(id);
+		{
+		EnemyAction action;
+		action.action_type = EnemyAction::left;
+		action.duration = 1;
+		actions.push_back(action);
+		}
+
+		{
+			EnemyAction action;
+			action.action_type = EnemyAction::shoot;
+			action.duration = 0.05f;
+			actions.push_back(action);
+		}
+
+		{
+			EnemyAction action;
+			action.action_type = EnemyAction::right;
+			action.duration = 1;
+			actions.push_back(action);
+		}
+		{
+			EnemyAction action;
+			action.action_type = EnemyAction::shoot;
+			action.duration = 0.05f;
+			actions.push_back(action);
+		}
 	}
 
-	Weapon* weapon;
-	Controller* controller;
+	bool behaviour_active = false;
+	float time = 0;
+	int action_index = 0;
+	EnemyAction current_action;
 	std::vector<EnemyAction> actions;
 };

@@ -12,7 +12,7 @@
 #include "ECS/Systems/SpriteRenderSystem.h"
 #include "ECS/Systems/PhysicsSystem.h"
 #include "ECS/Components/Controller.h"
-#include "ECS/Components/Player.h"
+#include "ECS/Components/PlayerController.h"
 
 #include "Common.h"
 #include "ECS/Components/Enemy.h"
@@ -52,7 +52,7 @@ public:
         auto& manager = ECS::ECSManager::get_instance();
 
         // Register Components
-        manager.register_component<Player>();
+        manager.register_component<PlayerController>();
         manager.register_component<Enemy>();
         manager.register_component<Transform>();
         manager.register_component<Sprite>();
@@ -77,6 +77,7 @@ public:
         damage_system->init();
         enemy_system->init();
 
+        /*
         int entities = 500;
         srand(time(NULL));
         rand();
@@ -84,6 +85,10 @@ public:
         {
             int x = rand() % SCREEN_WIDTH;
             int y = rand() % SCREEN_HEIGHT;
+
+            //int x = SCREEN_WIDTH * 0.5;
+            //int y = SCREEN_HEIGHT * 0.5;
+
 
             SDL_Color rand_color;
             rand_color.r = rand() % 255;
@@ -99,13 +104,13 @@ public:
            manager.get_component<Transform>(e).position = { (float)x, (float)y };
            manager.get_component<Sprite>(e).color = rand_color;
         }
+        */
         
-        
-        // Creating player entity
+        // Player entity
         const auto p = ECS::ECSManager::get_instance().create_entity();
-        manager.add_component<Player>(p);
-        player = &manager.get_component<Player>(p);
-        player->init();
+        manager.add_component<PlayerController>(p);
+        player_controller = &manager.get_component<PlayerController>(p);
+        player_controller->init();
 
     }
     void clean()
@@ -140,7 +145,7 @@ public:
             // limit fps
             //SDL_Delay(4);
             // Show fps
-            std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
+            //std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
             //std::cout << "time: " << std::to_string(time) << std::endl;
         }
     }
@@ -157,7 +162,7 @@ private:
     std::shared_ptr<CollisionSystem> collision_system;
     std::shared_ptr<SpriteRenderSystem> render_system;
 
-    Player* player;
+    PlayerController* player_controller;
 
     void handle_events()
     {
@@ -193,7 +198,7 @@ private:
 
     void update(float delta_time)
     {
-        player->update(delta_time);
+        player_controller->update(delta_time);
         enemy_system->update(delta_time);
         physics_system->update(delta_time);
         collision_system->update();

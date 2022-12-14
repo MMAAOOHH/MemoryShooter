@@ -114,7 +114,7 @@ void CollisionSystem::update()
 				const Tag& a_tag = a.second.tag;
 				const Tag& b_tag = b.second.tag;
 
-				// Skips checking for collisions for the same tag
+				// Skip if marked with the same tag
 				if (a_tag == b_tag) continue;
 
 				// Collision check
@@ -139,6 +139,7 @@ void CollisionSystem::update()
 			}
 		}
 	}
+	//std::cout << "Collision checks: " << checks << std::endl;
 }
 
 

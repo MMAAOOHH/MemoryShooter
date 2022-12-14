@@ -18,7 +18,7 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 {
 	if (entities.empty()) return;
 
-	
+	/*
 	int size = 4;
 	for (int i = 0; i < size; ++i)
 	{
@@ -42,6 +42,8 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 			SDL_RenderDrawRect(renderer, &cell);
 		}
 	}
+	*/
+
 	
 	for (auto& entity : entities)
 	{

@@ -19,7 +19,6 @@ namespace ECS
 		// delete copy constructor
 		ECSManager(const ECSManager&) = delete;
 
-		// TODO: Make unique ptr?
 		//singleton
 		static ECSManager& get_instance()
 		{
@@ -46,7 +45,6 @@ namespace ECS
 		{
 			for (auto& entity : entities_to_remove)
 				destroy_entity(entity);
-
 		}
 
 		// Components

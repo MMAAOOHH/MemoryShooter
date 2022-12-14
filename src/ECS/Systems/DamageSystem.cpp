@@ -83,7 +83,7 @@ void DamageSystem::update()
 		if(h_comp.current_health <= 0)
 		{
 			// Kill entity
-			std::cout << "Entity died" << std::endl;
+			//std::cout << "Entity died" << std::endl;
 			manager.entities_to_remove.push_back(h_comp.entity_id);
 		}
 	}
