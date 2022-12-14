@@ -20,12 +20,17 @@ void EnemySystem::update(const float delta_time)
 	if (entities.empty())
 		start_wave();
 
+	// move all down
+	for (auto& e : entities)
+	{
+		manager.get_component<Controller>(e).move(down * 50);
+	}
+
+	/*
 	// Iterate actions
 	for (auto& e : entities)
 	{
 		auto& enemy = manager.get_component<Enemy>(e);
-		manager.get_component<Controller>(e).move(down * 50);
-/*
 		if (!enemy.behaviour_active) return;
 
 		enemy.current_action = enemy.actions[enemy.action_index];
@@ -60,12 +65,12 @@ void EnemySystem::update(const float delta_time)
 			manager.get_component<Controller>(e).move(up * 400);
 			break;
 		case action.shoot:
-			manager.get_component<Weapon>(e).shoot(down * 800);
+			manager.get_component<Weapon>(e).shoot(down * 800, enemy_projectile);
 			break;
 
 		}
-	*/
 	}
+	*/
 }
 
 

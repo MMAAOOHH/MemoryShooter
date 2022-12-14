@@ -18,6 +18,7 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 {
 	if (entities.empty()) return;
 
+	// Spatial grid visual debug
 	/*
 	int size = 4;
 	for (int i = 0; i < size; ++i)
@@ -48,13 +49,12 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 	for (auto& entity : entities)
 	{
 		RenderData data;
-		// Todo: fetch and store components some other way, no need to do it each frame. create map with paired components?
 		auto const& transform = ECS::ECSManager::get_instance().get_component<Transform>(entity);
 		auto const& sprite = ECS::ECSManager::get_instance().get_component<Sprite>(entity);
 
 		data.position = transform.position;
-		data.width = sprite.width;
-		data.height = sprite.height;
+		data.width = sprite.width * transform.scale;
+		data.height = sprite.height * transform.scale;
 		data.color = sprite.color;
 		data_list.push_back(data);
 	}

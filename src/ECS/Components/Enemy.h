@@ -73,7 +73,7 @@ struct Enemy : ECS::Component
 		}
 	}
 
-	bool behaviour_active = false;
+	bool behaviour_active = true;
 	float time = 0;
 	int action_index = 0;
 	EnemyAction current_action;

@@ -70,7 +70,7 @@ struct PlayerController : ECS::Component
 			weapon_wait += delta_time;
 			if (weapon_wait > 0.1f)
 			{
-				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700});
+				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, player_projectile);
 				weapon_wait = 0;
 			}
 		}

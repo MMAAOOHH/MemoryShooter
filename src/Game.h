@@ -77,8 +77,9 @@ public:
         damage_system->init();
         enemy_system->init();
 
-        /*
-        int entities = 500;
+
+        // Background stars
+        int entities = 100;
         srand(time(NULL));
         rand();
         for (int i = 0; i < entities; ++i)
@@ -89,7 +90,6 @@ public:
             //int x = SCREEN_WIDTH * 0.5;
             //int y = SCREEN_HEIGHT * 0.5;
 
-
             SDL_Color rand_color;
             rand_color.r = rand() % 255;
             rand_color.g = rand() % 255;
@@ -98,13 +98,13 @@ public:
 
             const auto e = ECS::ECSManager::get_instance().create_entity();
 
-           manager.add_component<Enemy>(e);
-           manager.get_component<Enemy>(e).init();
-
+           manager.add_component<Sprite>(e);
+           manager.add_component<Transform>(e);
            manager.get_component<Transform>(e).position = { (float)x, (float)y };
+           manager.get_component<Transform>(e).scale = 0.05f;
            manager.get_component<Sprite>(e).color = rand_color;
         }
-        */
+        
         
         // Player entity
         const auto p = ECS::ECSManager::get_instance().create_entity();
