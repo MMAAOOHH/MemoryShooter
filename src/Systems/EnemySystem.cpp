@@ -9,7 +9,7 @@ void EnemySystem::init()
 
 	manager.set_system_signature<EnemySystem>(signature);
 
-	create_grid(4, 8);
+	create_grid_locations(4, 8);
 }
 
 
@@ -21,6 +21,7 @@ void EnemySystem::update(const float delta_time)
 		start_wave();
 
 	wave_time += delta_time;
+
 	for (auto& e : entities)
 	{
 		auto& enemy = manager.get_component<Enemy>(e);
@@ -40,12 +41,10 @@ void EnemySystem::update(const float delta_time)
 
 		if(enemy.state == EnemyState::active)
 		{
-
-
-			enemy.time += delta_time;
 			rb.velocity.y = 10;
 			transform.position.x += sin(wave_time) * delta_time * 10;
 
+			enemy.time += delta_time;
 			if (enemy.time > 3)
 			{
 				weapon.shoot({ 0, 80 }, Tag::enemy);
@@ -56,13 +55,14 @@ void EnemySystem::update(const float delta_time)
 }
 
 
-void EnemySystem::create_grid(int rows, int cols)
+void EnemySystem::create_grid_locations(int rows, int cols)
 {
 
 	const float width = SCREEN_WIDTH / cols;
 	const float height = SCREEN_HEIGHT / 3 / rows;
 
 	start_locations.clear();
+
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)
@@ -87,12 +87,12 @@ void EnemySystem::start_wave()
 	for (int i = 0; i < 16; ++i)
 	{
 		const Vec2 spawn_pos = { SCREEN_WIDTH * 0.5f, -20 };
-		spawn(spawn_pos, start_locations[i]);
+		spawn_enemy(spawn_pos, start_locations[i]);
 	}
 }
 
 
-void EnemySystem::spawn(Vec2 spawn_pos, Vec2 start_pos)
+void EnemySystem::spawn_enemy(Vec2 spawn_pos, Vec2 start_pos)
 {
 	auto& manager = ECS::ECSManager::get_instance();
 	auto id = manager.create_entity();

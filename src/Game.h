@@ -1,15 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <ctime>
-
 #include <SDL/SDL.h>
-
 #include "Common.h"
 #include "ECS/ECS.h"
-
 #include "Systems/CollisionSystem.h"
 #include "Systems/SpriteRenderSystem.h"
 #include "Systems/PhysicsSystem.h"
@@ -20,6 +13,12 @@
 
 class Game
 {
+    enum State
+    {
+        pause,
+        running
+    };
+
 public:
     Game() = default;
     ~Game() = default;
@@ -37,6 +36,8 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool is_running = false;
+
+    State current_state = pause;
 
     PlayerController* player_controller;
 

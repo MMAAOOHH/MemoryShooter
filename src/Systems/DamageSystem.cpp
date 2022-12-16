@@ -2,6 +2,9 @@
 
 #include "DamageSystem.h"
 #include "../ECS/ECS.h"
+#include "../Components/Health.h"
+#include "../Components/Collider.h"
+#include "../Components/Enemy.h"
 
 void DamageSystem::init()
 {

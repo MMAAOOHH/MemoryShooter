@@ -45,7 +45,6 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 	}
 	*/
 
-	
 	for (auto& entity : entities)
 	{
 		RenderData data;

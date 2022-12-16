@@ -1,12 +1,9 @@
 #pragma once
 
-
-#include <map>
 #include <unordered_map>
 #include <vector>
 #include "../ECS/System.h"
 
-#include "../Components/AABB.h"
 #include "../Components/Collider.h"
 #include "../Components/Transform.h"
 #include "../Math.h"
@@ -42,10 +39,6 @@ struct CollisionSystem : ECS::System
 	void update();
 
 private:
-	
-	// std::unordered_map<std::bitset<32>, std::vector<ECS::Entity>> do_broad_phase();
-	// std::map<ECS::Entity, ECS::Entity> do_narrow_phase();
-
 	AABB make_from_position_size(float x, float y, float w, float h);
 	AABB make_from_position_size_centered(float x, float y, float w, float h);
 	bool aabb_intersect(const AABB& a, const AABB& b);
@@ -59,9 +52,4 @@ private:
 
 	std::vector<ECS::Entity> did_collide;
 
-	// old
-	std::vector<Transform> transform_list_old;
-	std::vector<AABB> aabb_list;
-	std::vector<AABB> spatial_cells;
-	std::vector<AABB> make_grid(int size);
 };

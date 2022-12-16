@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <string>
+
 #include "Components/Controller.h"
 #include "Components/PlayerController.h"
 #include "Components/Enemy.h"
@@ -102,7 +104,6 @@ void Game::run()
         SDL_Delay(8);
         // Show fps
         std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
-        //std::cout << "wave_time: " << std::to_string(wave_time) << std::endl;
     }
 }
 
@@ -121,6 +122,17 @@ void Game::handle_events()
         {
             const int scan_code = event.key.keysym.scancode;
             keys[scan_code] = true;
+
+			//Quit with ESC
+            if (scan_code == SDL_SCANCODE_ESCAPE)
+            {
+                is_running = false;
+            }
+
+			// Pause with P
+            if (scan_code == SDL_SCANCODE_P)
+                current_state == running ? current_state = pause : current_state = running;
+
             break;
         }
 
@@ -136,6 +148,9 @@ void Game::handle_events()
 
 void Game::update(float delta_time)
 {
+    if (current_state == pause)
+        return;
+
     background->update(delta_time);
     player_controller->update(delta_time);
     enemy_system->update(delta_time);

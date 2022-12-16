@@ -40,6 +40,9 @@ struct PlayerController : ECS::Component
 
 	void update(const float delta_time)
 	{
+
+		// Movement
+		// --------
 		Vec2 direction;
 		if ((keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_UP])) 
 			direction.y = -1;
@@ -71,7 +74,8 @@ struct PlayerController : ECS::Component
 
 		rb.acceleration = direction * move_speed;
 
-		
+		// Shooting
+		// --------
 		if ((keys[SDL_SCANCODE_SPACE]))
 		{
 			weapon_wait += delta_time;

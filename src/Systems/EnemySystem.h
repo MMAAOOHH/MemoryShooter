@@ -16,9 +16,9 @@ struct EnemySystem : ECS::System
 
 private:
 	// wave stuff
-	void create_grid(int rows, int cols);
+	void create_grid_locations(int rows, int cols);
 	void start_wave();
-	void spawn(Vec2 spawn_pos, Vec2 start_pos);
+	void spawn_enemy(Vec2 spawn_pos, Vec2 start_pos);
 
 	float wave_time = 0;
 	int wave_index = 0;
