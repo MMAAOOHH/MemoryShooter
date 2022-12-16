@@ -24,9 +24,9 @@ https://www.david-colson.com/2020/02/09/making-a-simple-ecs.html
 https://austinmorlan.com/posts/entity_component_system/  
 
 DoD  
-Data-Oriented Design book, https://www.dataorienteddesign.com/dodmain/  
-Mike Acton, cpp-con, https://www.youtube.com/watch?v=rX0ItVEVjHc  
-Casey Muratori, Handmade Hero, https://handmadehero.org/  
+Data-Oriented Design book - https://www.dataorienteddesign.com/dodmain/  
+Mike Acton, cpp-con - https://www.youtube.com/watch?v=rX0ItVEVjHc  
+Casey Muratori, Handmade Hero - https://handmadehero.org/  
 
 TODO:  
 enemy variations  
