@@ -26,7 +26,7 @@ SIMD
 
 ### Wishlist  
 More optimized solution for component lookup  
-Better clean up and packing of lists when entities die  
+Better clean up and packing of lists when entities die / components gets removed    
 
 ### Resources
 ECS  
@@ -38,7 +38,7 @@ Data-Oriented Design book - https://www.dataorienteddesign.com/dodmain/
 Mike Acton, cpp-con - https://www.youtube.com/watch?v=rX0ItVEVjHc  
 Casey Muratori, Handmade Hero - https://handmadehero.org/  
 
-TODO:  
+### TODO:  
 enemy variations  
 spawn wave delays  
 spawn wave difference  
