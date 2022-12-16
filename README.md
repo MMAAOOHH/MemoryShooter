@@ -4,6 +4,8 @@ Small 2d Space Shooter done with SDL
 ## Bugs / Missing features in first build 
 Player is invincible  
 Enemies can be killed on wave entry  
+No win or lose state  
+Score system missing  
 
 ## Controls  
 wasd/arrow keys - move   
@@ -34,9 +36,9 @@ Casey Muratori, Handmade Hero - https://handmadehero.org/
 
 TODO:  
 enemy variations  
-spawn wave delays
-spawn wave difference
-scoring
-win / lose state
+spawn wave delays  
+spawn wave difference  
+scoring  
+win / lose state  
 powerups  
 clean up
