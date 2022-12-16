@@ -1,5 +1,6 @@
 # MemoryShooter
-Small 2d Space Shooter done with SDL 
+Small 2d Space Shooter done with SDL  
+.exe in Build.zip  
 
 ## Controls  
 wasd/arrow keys - move   
