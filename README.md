@@ -2,7 +2,7 @@
 Small 2d Space Shooter done with SDL 
 
 ## Controls  
-WASD/Arrow keys - move   
+wasd/arrow keys - move   
 space - shoot  
 p - pause/unpause (Game's paused on startup)  
 esc - quit  
