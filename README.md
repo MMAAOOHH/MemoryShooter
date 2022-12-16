@@ -1,6 +1,11 @@
 # MemoryShooter
 Small 2d Space Shooter done with SDL 
 
+## Controls  
+WASD/Arrow keys to move   
+Space to shoot  
+P - pause/unpause (Game's paused on startup)  
+
 ### Performance / Data oriented -practices in the project:   
 ECS, components just being structs of data, systems transforming the data
 Each system only gathering the data it needs  
