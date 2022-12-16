@@ -2,11 +2,11 @@
 Small 2d Space Shooter done with SDL 
 
 ### Performance / Data oriented -practices in the project:   
-ECS, components just being structs of data, systems transforming the data  
-Continous profiling throughout the project, trying to reduce unnecessary jumps around in memory.  
+ECS, components just being structs of data, systems transforming the data
 Each system only gathering the data it needs  
-Collisions split up between Broad and Narrow-phase reducing amount of collision checks  
-
+Collisions split up between Broad and Narrow-phase reducing amount of collision checks 
+Continous profiling throughout the project, trying to reduce unnecessary jumps around in memory.  
+ 
 ### Other topics researched:  
 Cache coherence - SoA vs AoS  
 Sparse set  
