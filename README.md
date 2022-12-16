@@ -24,6 +24,10 @@ Cache coherence - SoA vs AoS
 Sparse set  
 SIMD  
 
+### Wishlist  
+More optimized solution for component lookup  
+Better clean up and packing of lists when entities die  
+
 ### Resources
 ECS  
 https://www.david-colson.com/2020/02/09/making-a-simple-ecs.html  
