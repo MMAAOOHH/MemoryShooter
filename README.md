@@ -23,7 +23,10 @@ Mike Acton, cpp-con, https://www.youtube.com/watch?v=rX0ItVEVjHc
 Casey Muratori, Handmade Hero, https://handmadehero.org/  
 
 TODO:  
-enemies  
-spawn waves    
-weapons  
-clean up input  
+enemy variations  
+spawn wave delays
+spawn wave difference
+scoring
+win / lose state
+powerups  
+clean up
