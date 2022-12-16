@@ -1,17 +1,17 @@
 # MemoryShooter
 Small 2d Space Shooter done with SDL 
 
-## Bugs / Missing features in first build 
-Player is invincible  
-Enemies can be killed on wave entry  
-No win or lose state  
-Score system missing  
-
 ## Controls  
 wasd/arrow keys - move   
 space - shoot  
 p - pause/unpause (Game's paused on startup)  
 esc - quit  
+
+### Bugs / Missing features in first build 
+Player is invincible  
+Enemies can be killed on wave entry  
+No win or lose state  
+Score system missing  
 
 ### Performance / Data oriented -practices in the project:   
 ECS, components just being structs of data, systems transforming the data.
