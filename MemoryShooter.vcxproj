@@ -147,6 +147,7 @@
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\SpriteRenderSystem.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,12 +163,14 @@
     <ClInclude Include="src\ECS\Components\Controller.h" />
     <ClInclude Include="src\ECS\Components\PlayerController.h" />
     <ClInclude Include="src\ECS\Components\Sprite.h" />
+    <ClInclude Include="src\ECS\Components\Star.h" />
     <ClInclude Include="src\ECS\Components\Timer.h" />
     <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="src\ECS\Components\Weapon.h" />
     <ClInclude Include="src\ECS\ECS.h" />
     <ClInclude Include="src\ECS\EntityManager.h" />
     <ClInclude Include="src\ECS\System.h" />
+    <ClInclude Include="src\ECS\Systems\BackgroundSystem.h" />
     <ClInclude Include="src\ECS\Systems\CollisionSystem.h" />
     <ClInclude Include="src\ECS\Systems\DamageSystem.h" />
     <ClInclude Include="src\ECS\Systems\EnemySystem.h" />

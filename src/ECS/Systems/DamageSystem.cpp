@@ -27,48 +27,43 @@ void DamageSystem::update()
 	}
 
 	// Handle collision types
-	for (auto& c_comp : collision_components)
+	for (const auto& c_comp : collision_components)
 	{
-		const auto id = c_comp.entity_id;
-		const auto tag = c_comp.this_tag;
-		const auto collision_from = c_comp.from_tag;
+		auto& id = c_comp.entity_id;
+		auto& tag = c_comp.this_tag;
+		auto& collision_from = c_comp.from_tag;
 
 		switch (tag)
 		{
-			case player :
-				if (collision_from == player || collision_from == player_projectile) 
-					continue;
+			case Tag::player :
+				if (collision_from == Tag::enemy || collision_from == Tag::enemy_projectile) 
 				{
-					const auto h_comp = manager.get_component<Health>(id);
-					health_components.push_back(h_comp);
-				}
-
-				break;
-
-			case player_projectile:
-				if (collision_from == player || collision_from == player_projectile)
-					continue;
-				{
-					const auto h_comp = manager.get_component<Health>(id);
+					auto& h_comp = manager.get_component<Health>(id);
 					health_components.push_back(h_comp);
 				}
 				break;
 
-			case enemy:
-				if (collision_from == enemy || collision_from == enemy_projectile)
-					continue;
+		case Tag::enemy:
+				if (collision_from == Tag::player_projectile || collision_from == Tag::player)
 				{
-					const auto h_comp = manager.get_component<Health>(id);
+					auto& h_comp = manager.get_component<Health>(id);
+					health_components.push_back(h_comp);
+				}
+				break;
+
+			case Tag::player_projectile:
+				if (collision_from == Tag::enemy || collision_from == Tag::enemy_projectile)
+				{
+					auto& h_comp = manager.get_component<Health>(id);
 					health_components.push_back(h_comp);
 				}
 				break;
 
 
-			case enemy_projectile:
-				if (collision_from == enemy || collision_from == enemy_projectile)
-					continue;
+			case Tag::enemy_projectile:
+				if (collision_from == Tag::player || collision_from == Tag::player_projectile)
 				{
-					const auto h_comp = manager.get_component<Health>(id);
+					auto& h_comp = manager.get_component<Health>(id);
 					health_components.push_back(h_comp);
 				}
 				break;
@@ -82,8 +77,6 @@ void DamageSystem::update()
 
 		if(h_comp.current_health <= 0)
 		{
-			// Kill entity
-			//std::cout << "Entity died" << std::endl;
 			manager.entities_to_remove.push_back(h_comp.entity_id);
 		}
 	}

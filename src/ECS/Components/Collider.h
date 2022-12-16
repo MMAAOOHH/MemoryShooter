@@ -2,7 +2,7 @@
 
 #include "../Component.h"
 
-enum Tag
+enum class Tag
 {
 	player,
 	enemy,
@@ -13,6 +13,7 @@ enum Tag
 struct Collider : ECS::Component
 {
 	Tag tag;
+	bool active = false;
 };
 
 struct Collision : ECS::Component

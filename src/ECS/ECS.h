@@ -45,7 +45,7 @@ namespace ECS
 		{
 			for (const auto& entity : entities_to_remove)
 			{
-				std::cout << "Entity destroyed" << std::endl;
+				//std::cout << "Entity destroyed" << std::endl;
 				destroy_entity(entity);
 			}
 			entities_to_remove.clear();

@@ -134,16 +134,15 @@ void CollisionSystem::update()
 				if (aabb_intersect(box_a, box_b))
 				{
 					manager.add_component<Collision>(id_a, a_tag, b_tag);
-					//manager.add_component<Collision>(id_b, b_tag, a_tag);
+					manager.add_component<Collision>(id_b, b_tag, a_tag);
 				}
 			}
 		}
 	}
-	//std::cout << "Collision checks: " << checks << std::endl;
 }
 
 
-AABB CollisionSystem::make_from_position_size(float x, float y, float w, float h)
+AABB CollisionSystem::make_from_position_size(const float x, const float y, const float w, const float h)
 {
 	AABB box;
 	box.y_min = y - h;

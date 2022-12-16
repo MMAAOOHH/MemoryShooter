@@ -7,6 +7,6 @@
 struct Sprite : ECS::Component
 {
 		SDL_Color color{100, 255, 100, 255};
-		int width = DEFAULT_SPRITE_W;
-		int height = DEFAULT_SPRITE_H;
+		float width = DEFAULT_SPRITE_W;
+		float height = DEFAULT_SPRITE_H;
 };

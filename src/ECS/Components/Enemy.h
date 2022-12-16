@@ -8,25 +8,10 @@
 #include "../Component.h"
 #include "../ECS.h"
 
-
-struct EnemyAction
+enum class  EnemyState
 {
-	enum Type
-	{
-		left,
-		right,
-		up,
-		down,
-		down_left,
-		down_right,
-		up_left,
-		up_right,
-		shoot,
-		wait
-	};
-
-	Type action_type;
-	float duration = 1.0f;
+	entry,
+	active
 };
 
 struct Enemy : ECS::Component
@@ -43,39 +28,13 @@ struct Enemy : ECS::Component
 		manager.add_component<Sprite>(id);
 		manager.add_component<Health>(id);
 		manager.add_component<Weapon>(id);
-		manager.get_component<Collider>(id).tag = enemy;
 
-		{
-		EnemyAction action;
-		action.action_type = EnemyAction::left;
-		action.duration = 1;
-		actions.push_back(action);
-		}
-
-		{
-			EnemyAction action;
-			action.action_type = EnemyAction::shoot;
-			action.duration = 0.05f;
-			actions.push_back(action);
-		}
-
-		{
-			EnemyAction action;
-			action.action_type = EnemyAction::right;
-			action.duration = 1;
-			actions.push_back(action);
-		}
-		{
-			EnemyAction action;
-			action.action_type = EnemyAction::shoot;
-			action.duration = 0.05f;
-			actions.push_back(action);
-		}
+		manager.get_component<Collider>(id).tag = Tag::enemy;
+		manager.get_component<Sprite>(id).color = { 255,255,255,255 };
+		manager.get_component<RigidBody>(id).friction = 0;
 	}
 
-	bool behaviour_active = true;
+	Vec2 start_position = { 0,0 };
 	float time = 0;
-	int action_index = 0;
-	EnemyAction current_action;
-	std::vector<EnemyAction> actions;
+	EnemyState state = EnemyState::entry;
 };

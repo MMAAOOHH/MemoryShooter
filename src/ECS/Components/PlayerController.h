@@ -27,8 +27,11 @@ struct PlayerController : ECS::Component
 		manager.add_component<Weapon>(this->entity_id);
 		manager.add_component<Health>(this->entity_id);
 
-		manager.get_component<Collider>(this->entity_id).tag = player;
+		manager.get_component<Collider>(this->entity_id).tag = Tag::player;
 		manager.get_component<Health>(this->entity_id).current_health = 10;
+
+		Vec2 start_pos = { SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT - 30.0f };
+		manager.get_component<Transform>(this->entity_id).position = start_pos;
 
 	}
 
@@ -57,9 +60,13 @@ struct PlayerController : ECS::Component
 		// Screen wrap
 		if (t.position.x < 0) t.position.x = SCREEN_WIDTH;
 		if (t.position.x > SCREEN_WIDTH) t.position.x = 0;
+
+
+		float half_height = DEFAULT_SPRITE_H * 0.5 * t.scale;
+
 		// Bot and top border block
-		if (t.position.y < 0) t.position.y = 0;
-		if (t.position.y > SCREEN_HEIGHT) t.position.y = SCREEN_HEIGHT;
+		if (t.position.y - half_height < 0) t.position.y = 0 + half_height;
+		if (t.position.y + half_height > SCREEN_HEIGHT) t.position.y = SCREEN_HEIGHT - half_height;
 
 
 		rb.acceleration = direction * move_speed;
@@ -70,11 +77,10 @@ struct PlayerController : ECS::Component
 			weapon_wait += delta_time;
 			if (weapon_wait > 0.1f)
 			{
-				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, player_projectile);
+				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, Tag::player);
 				weapon_wait = 0;
 			}
 		}
 	}
 
-	 Transform* transform;
 };

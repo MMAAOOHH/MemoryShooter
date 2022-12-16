@@ -20,57 +20,39 @@ void EnemySystem::update(const float delta_time)
 	if (entities.empty())
 		start_wave();
 
-	// move all down
-	for (auto& e : entities)
-	{
-		manager.get_component<Controller>(e).move(down * 50);
-	}
-
-	/*
-	// Iterate actions
+	wave_time += delta_time;
 	for (auto& e : entities)
 	{
 		auto& enemy = manager.get_component<Enemy>(e);
-		if (!enemy.behaviour_active) return;
+		auto& transform = manager.get_component<Transform>(e);
+		auto& rb = manager.get_component<RigidBody>(e);
+		auto& weapon = manager.get_component<Weapon>(e);
 
-		enemy.current_action = enemy.actions[enemy.action_index];
-		auto& action = enemy.current_action;
-		enemy.time += delta_time;
-
-		if (enemy.time >= action.duration)
+		if(enemy.state == EnemyState::entry)
 		{
-			enemy.action_index++;
+			if (wave_time < 2)
+				transform.position = lerp(transform.position, { SCREEN_WIDTH * 0.5f ,50 }, delta_time / 0.5f);
+			if (wave_time > 2)
+				transform.position = lerp(transform.position, enemy.start_position, delta_time / 0.5f);
+			if (wave_time >= 3)
+				enemy.state = EnemyState::active;
+		}
 
-			if (enemy.action_index >= (int)enemy.actions.size())
+		if(enemy.state == EnemyState::active)
+		{
+
+
+			enemy.time += delta_time;
+			rb.velocity.y = 10;
+			transform.position.x += sin(wave_time) * delta_time * 10;
+
+			if (enemy.time > 3)
 			{
-				enemy.action_index = 0;
+				weapon.shoot({ 0, 80 }, Tag::enemy);
+				enemy.time = 0;
 			}
-
-			enemy.time = 0;
-			continue;
 		}
-
-		switch (action.action_type)
-		{
-		case action.left:
-			manager.get_component<Controller>(e).move(left * 800);
-			break;
-		case action.right:
-			manager.get_component<Controller>(e).move(right * 800);
-			break;
-		case action.down:
-			manager.get_component<Controller>(e).move(down * 400);
-			break;
-		case action.up:
-			manager.get_component<Controller>(e).move(up * 400);
-			break;
-		case action.shoot:
-			manager.get_component<Weapon>(e).shoot(down * 800, enemy_projectile);
-			break;
-
-		}
-	}
-	*/
+	} 
 }
 
 
@@ -80,6 +62,7 @@ void EnemySystem::create_grid(int rows, int cols)
 	const float width = SCREEN_WIDTH / cols;
 	const float height = SCREEN_HEIGHT / 3 / rows;
 
+	start_locations.clear();
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)
@@ -98,23 +81,28 @@ void EnemySystem::create_grid(int rows, int cols)
 
 void EnemySystem::start_wave()
 {
-	wave_timer = 4;
+	wave_time = 0;
+	wave_index++;
+
 	for (int i = 0; i < 16; ++i)
 	{
-		Vec2 location = start_locations[i];
-		spawn_at_location(location);
+		const Vec2 spawn_pos = { SCREEN_WIDTH * 0.5f, -20 };
+		spawn(spawn_pos, start_locations[i]);
 	}
 }
 
 
-void EnemySystem::spawn_at_location(Vec2 position)
+void EnemySystem::spawn(Vec2 spawn_pos, Vec2 start_pos)
 {
 	auto& manager = ECS::ECSManager::get_instance();
 	auto id = manager.create_entity();
 	manager.add_component<Enemy>(id);
 
-	manager.get_component<Enemy>(id).init();
+	auto& enemy = manager.get_component<Enemy>(id);
+	enemy.init();
+	enemy.start_position = start_pos;
+	enemy.state = EnemyState::entry;
+
 	auto& t = manager.get_component<Transform>(id);
-	t.position = position;
-	wave_ids.push_back(id);
+	t.position = spawn_pos;
 }

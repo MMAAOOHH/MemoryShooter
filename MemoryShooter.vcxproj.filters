@@ -33,6 +33,9 @@
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\Types.h">
@@ -117,6 +120,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\Systems\EnemySystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECS\Systems\BackgroundSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECS\Components\Star.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
