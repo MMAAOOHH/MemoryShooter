@@ -1,8 +1,8 @@
 #include "PhysicsSystem.h"
-#include "../ECS.h"
+#include "../ECS/ECS.h"
 #include "../Components/Transform.h"
 #include "../Components/Physics.h"
-#include "../../Common.h"
+#include "../Common.h"
 
 
 //const float GRATIVTY = 0.00002f;

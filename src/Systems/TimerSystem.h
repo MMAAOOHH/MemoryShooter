@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../System.h"
-#include "../ECS.h"
+#include "../ECS/System.h"
+#include "../ECS//ECS.h"
 #include "../Components/Timer.h"
 
 

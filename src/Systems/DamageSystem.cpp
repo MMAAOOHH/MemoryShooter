@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DamageSystem.h"
-#include "../ECS.h"
+#include "../ECS/ECS.h"
 
 void DamageSystem::init()
 {

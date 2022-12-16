@@ -1,9 +1,9 @@
 #include "Game.h"
 
-#include "ECS/Components/Controller.h"
-#include "ECS/Components/PlayerController.h"
-#include "ECS/Components/Enemy.h"
-#include "ECS/Components/Star.h"
+#include "Components/Controller.h"
+#include "Components/PlayerController.h"
+#include "Components/Enemy.h"
+#include "Components/Star.h"
 
 bool keys[SDL_NUM_SCANCODES]{ false };
 float DEFAULT_SPRITE_W = 32;

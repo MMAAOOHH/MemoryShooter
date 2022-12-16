@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Component.h"
-#include "../../ECS/ECS.h"
+#include "../ECS/Component.h"
+#include "../ECS/ECS.h"
 #include "Physics.h"
 #include "Transform.h"
 #include "Sprite.h"

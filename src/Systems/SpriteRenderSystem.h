@@ -2,10 +2,10 @@
 
 #include <vector>
 
-#include "../System.h"
-
+#include "../ECS/System.h"
 #include "../Components/Transform.h"
 #include "../Components/Sprite.h"
+#include "../Math.h"
 
 struct RenderData
 {

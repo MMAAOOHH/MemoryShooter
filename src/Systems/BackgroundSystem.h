@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ECS.h"
-#include "../System.h"
-#include "../Types.h"
+#include "../ECS/ECS.h"
+#include "../ECS/System.h"
+#include "../ECS/Types.h"
 #include "../Components/Star.h"
 
 struct BackgroundSystem : ECS::System

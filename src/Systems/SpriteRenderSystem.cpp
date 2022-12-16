@@ -1,8 +1,8 @@
 #include "SpriteRenderSystem.h"
 
-#include "../ECS.h"
+#include "../ECS/ECS.h"
 #include <SDL/SDL_render.h>
-#include "../../Common.h"
+#include "../Common.h"
 
 void SpriteRenderSystem::init()
 {

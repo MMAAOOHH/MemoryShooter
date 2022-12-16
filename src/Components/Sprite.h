@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Component.h"
+#include "../ECS/Component.h"
 #include "SDL/SDL.h"
-#include "../../Common.h"
+#include "../Common.h"
 
 struct Sprite : ECS::Component
 {

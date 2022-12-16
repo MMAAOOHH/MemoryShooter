@@ -4,12 +4,12 @@
 #include <map>
 #include <unordered_map>
 #include <vector>
-#include "../System.h"
+#include "../ECS/System.h"
 
 #include "../Components/AABB.h"
 #include "../Components/Collider.h"
 #include "../Components/Transform.h"
-#include "../../Math.h"
+#include "../Math.h"
 
 struct AABB
 {

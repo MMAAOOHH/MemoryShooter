@@ -1,12 +1,14 @@
 #pragma once
+
 #include "Collider.h"
 #include "Health.h"
 #include "Sprite.h"
 #include "Transform.h"
 #include "Controller.h"
 #include "Weapon.h"
-#include "../Component.h"
-#include "../ECS.h"
+#include "../ECS/Component.h"
+#include "../ECS/ECS.h"
+#include "../math.h"
 
 enum class  EnemyState
 {

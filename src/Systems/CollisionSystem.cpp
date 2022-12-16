@@ -4,11 +4,11 @@
 
 #include <chrono>
 
-#include "../ECS.h"
+#include "../ECS/ECS.h"
 #include "../Components/Transform.h"
-#include "../../Common.h"
-#include "../Types.h"
-#include "../../Math.h"
+#include "../Common.h"
+#include "../ECS/Types.h"
+#include "../Math.h"
 
 void CollisionSystem::init()
 {

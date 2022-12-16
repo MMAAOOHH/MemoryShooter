@@ -10,13 +10,13 @@
 #include "Common.h"
 #include "ECS/ECS.h"
 
-#include "ECS/Systems/CollisionSystem.h"
-#include "ECS/Systems/SpriteRenderSystem.h"
-#include "ECS/Systems/PhysicsSystem.h"
-#include "ECS/Systems/BackgroundSystem.h"
-#include "ECS/Systems/DamageSystem.h"
-#include "ECS/Systems/EnemySystem.h"
-#include "ECS/Components/PlayerController.h"
+#include "Systems/CollisionSystem.h"
+#include "Systems/SpriteRenderSystem.h"
+#include "Systems/PhysicsSystem.h"
+#include "Systems/BackgroundSystem.h"
+#include "Systems/DamageSystem.h"
+#include "Systems/EnemySystem.h"
+#include "Components/PlayerController.h"
 
 class Game
 {

@@ -2,8 +2,8 @@
 
 #include <SDL/SDL_scancode.h>
 
-#include "../Component.h"
-#include "../ECS.h"
+#include "../ECS/Component.h"
+#include "../ECS/ECS.h"
 #include "Controller.h"
 #include "Health.h"
 #include "Transform.h"
@@ -11,7 +11,7 @@
 #include "Physics.h"
 #include "Weapon.h"
 
-#include "..//../Common.h"
+#include "../Common.h"
 
 struct PlayerController : ECS::Component
 {

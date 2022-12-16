@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Math.h"
-#include "../Component.h"
+#include "../Math.h"
+#include "../ECS/Component.h"
 
 struct Transform : ECS::Component
 {

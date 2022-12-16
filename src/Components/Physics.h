@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Component.h"
-#include "../../Math.h"
+#include "../ECS/Component.h"
+#include "../Math.h"
 
 struct RigidBody : ECS::Component
 {
