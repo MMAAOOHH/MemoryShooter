@@ -1,6 +1,10 @@
 # MemoryShooter
 Small 2d Space Shooter done with SDL 
 
+Bugs / Missing features in first build:  
+Player is invincible  
+Enemies can be killed on wave entry  
+
 ## Controls  
 wasd/arrow keys - move   
 space - shoot  
