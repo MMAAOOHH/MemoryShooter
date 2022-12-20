@@ -37,6 +37,7 @@ struct CollisionSystem : ECS::System
 
 	void init();
 	void update();
+	void clean();
 
 private:
 	AABB make_from_position_size(float x, float y, float w, float h);
@@ -49,7 +50,6 @@ private:
 	std::vector<Transform> transform_list;
 	std::unordered_map<ECS::Entity, Collider> collider_map;
 	std::vector<std::pair<Transform, Collider>> data_list;
-
-	std::vector<ECS::Entity> did_collide;
+	std::vector<ECS::Entity> active_collisions;
 
 };

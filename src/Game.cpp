@@ -30,6 +30,15 @@ void Game::init(const char* name, int width, int height)
         is_running = false;
     }
 
+    
+    /*
+    // Initilize TTF
+    if (TTF_Init() == -0)
+    {
+        std::cout << "TTF init failed" << std::endl;
+    }
+    */
+
     // ECS setup
     auto& manager = ECS::ECSManager::get_instance();
 
@@ -75,6 +84,7 @@ void Game::clean()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    //TTF_Quit();
     SDL_Quit();
 
     window = nullptr;
@@ -103,7 +113,7 @@ void Game::run()
         // limit fps
         SDL_Delay(8);
         // Show fps
-        std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
+        //std::cout << "FPS: " << std::to_string(1.0f / delta_time) << std::endl;
     }
 }
 
@@ -158,7 +168,9 @@ void Game::update(float delta_time)
     collision_system->update();
     damage_system->update();
 
+    collision_system->clean();
     ECS::ECSManager::get_instance().clean_destroyed();
+    // Update game state
 
 }
 void Game::render()

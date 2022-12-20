@@ -77,6 +77,25 @@ namespace ECS
 			system_manager->entity_signature_changed(entity, signature);
 		}
 
+		template<typename T, typename... Args>
+		void remove_component(const Entity entity, Args&&... args)
+		{
+			// Adds the component to managers component list
+			component_manager->remove_component<T>(entity, std::forward<Args>(args)...);
+
+			// Gets signature for entity
+			auto signature = entity_manager->get_entity_signature(entity);
+
+			// Updates signature - adds the component to the bit set 
+			signature.set(component_manager->get_component_type<T>(), false);
+
+			// Sets new signature for entity
+			entity_manager->set_entity_signature(entity, signature);
+
+			// Notifies systems that entity signature was changed
+			system_manager->entity_signature_changed(entity, signature);
+		}
+
 		template<typename T>
 		T& get_component(const Entity entity)
 		{

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "Common.h"
 #include "ECS/ECS.h"
 #include "Systems/CollisionSystem.h"

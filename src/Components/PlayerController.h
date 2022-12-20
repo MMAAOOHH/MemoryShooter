@@ -58,12 +58,14 @@ struct PlayerController : ECS::Component
 
 		auto& rb = ECS::ECSManager::get_instance().get_component<RigidBody>(this->entity_id);
 		auto& t = ECS::ECSManager::get_instance().get_component<Transform>(this->entity_id);
+		auto& health = ECS::ECSManager::get_instance().get_component<Health>(this->entity_id);
+
+		std::cout << health.current_health << std::endl;
 
 		// TODO: make better
 		// Screen wrap
 		if (t.position.x < 0) t.position.x = SCREEN_WIDTH;
 		if (t.position.x > SCREEN_WIDTH) t.position.x = 0;
-
 
 		float half_height = DEFAULT_SPRITE_H * 0.5 * t.scale;
 
@@ -81,10 +83,9 @@ struct PlayerController : ECS::Component
 			weapon_wait += delta_time;
 			if (weapon_wait > 0.1f)
 			{
-				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, Tag::player);
+				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, Tag::player_projectile);
 				weapon_wait = 0;
 			}
 		}
 	}
-
 };

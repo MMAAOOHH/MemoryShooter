@@ -47,7 +47,7 @@ void EnemySystem::update(const float delta_time)
 			enemy.time += delta_time;
 			if (enemy.time > 3)
 			{
-				weapon.shoot({ 0, 80 }, Tag::enemy);
+				weapon.shoot({ 0, 80 }, Tag::enemy_projectile);
 				enemy.time = 0;
 			}
 		}

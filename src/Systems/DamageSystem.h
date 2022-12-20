@@ -15,7 +15,9 @@ struct DamageSystem : ECS::System
 
 	void init();
 	void update();
+	void damage_player(ECS::Entity id);
 
 	std::vector<Collision> collision_components;
 	std::vector<Health> health_components;
+	std::vector<ECS::Entity> to_damage;
 };

@@ -32,7 +32,7 @@ struct Projectile : ECS::Component
 		rb.friction = 0.f;
 
 		manager.get_component<Collider>(id).tag = tag;
-		if (tag == Tag::enemy)
+		if (tag == Tag::enemy_projectile)
 		{
 			t.scale *= 0.4f;
 			manager.get_component<Sprite>(id).color = { 255,255 ,255,255 };

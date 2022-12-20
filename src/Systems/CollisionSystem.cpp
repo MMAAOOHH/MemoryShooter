@@ -52,11 +52,6 @@ void CollisionSystem::update()
 {
 	if (entities.empty()) return;
 
-	// Clear previous
-	data_list.clear();
-	for (auto& list : cell_lists_array)
-		list.clear();
-
 	auto& manager = ECS::ECSManager::get_instance();
 	// Get components
 	for (const auto& entity : entities)
@@ -133,12 +128,52 @@ void CollisionSystem::update()
 
 				if (aabb_intersect(box_a, box_b))
 				{
+					bool register_collision = false;
+					// TODO: don't really like how i added this here
+					switch (a_tag)
+					{
+					case Tag::player :
+						if (b_tag == Tag::enemy || b_tag == Tag::enemy_projectile)
+							register_collision = true;
+						break;
+					case Tag::enemy:
+						if (b_tag == Tag::player || b_tag == Tag::player_projectile)
+							register_collision = true;
+						break;
+					case Tag::player_projectile :
+						if (b_tag == Tag::enemy || b_tag == Tag::enemy_projectile)
+							register_collision = true;
+						break;
+					case Tag::enemy_projectile:
+						if (b_tag == Tag::player || b_tag == Tag::player_projectile)
+							register_collision = true;
+						break;
+					}
+
+					if (!register_collision) 
+						return;
+					
 					manager.add_component<Collision>(id_a, a_tag, b_tag);
-					manager.add_component<Collision>(id_b, b_tag, a_tag);
+					//manager.add_component<Collision>(id_b, b_tag, a_tag);
+					active_collisions.push_back(id_a);
 				}
 			}
 		}
 	}
+}
+
+void CollisionSystem::clean()
+{
+	// Remove collision components
+	for (const auto& id : active_collisions)
+	{
+		ECS::ECSManager::get_instance().remove_component<Collision>(id);
+	}
+	// Clear 
+	active_collisions.clear();
+	data_list.clear();
+	for (auto& list : cell_lists_array)
+		list.clear();
 }
 
 
