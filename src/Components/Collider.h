@@ -13,7 +13,7 @@ enum class Tag
 struct Collider : ECS::Component
 {
 	Tag tag;
-	bool active = false;
+	bool active = true;
 };
 
 struct Collision : ECS::Component

@@ -41,6 +41,7 @@ void EnemySystem::update(const float delta_time)
 
 		if(enemy.state == EnemyState::active)
 		{
+			manager.get_component<Collider>(e).active = true;
 			rb.velocity.y = 10;
 			transform.position.x += sin(wave_time) * delta_time * 10;
 
@@ -104,5 +105,8 @@ void EnemySystem::spawn_enemy(Vec2 spawn_pos, Vec2 start_pos)
 	enemy.state = EnemyState::entry;
 
 	auto& t = manager.get_component<Transform>(id);
+	auto& col = manager.get_component<Collider>(id);
+
 	t.position = spawn_pos;
+	col.active = false;
 }

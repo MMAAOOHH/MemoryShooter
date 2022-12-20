@@ -60,6 +60,7 @@ void CollisionSystem::update()
 		auto& transform = manager.get_component<Transform>(id);
 		auto& collider = manager.get_component<Collider>(id);
 
+		if (collider.active)
 		data_list.emplace_back(std::pair<Transform, Collider>(transform, collider));
 	}
 
