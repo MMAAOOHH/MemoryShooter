@@ -6,10 +6,10 @@
 
 namespace ECS
 {
-	class ECSManager
+	class World
 	{
 	public:
-		ECSManager()
+		World()
 		{
 			entity_manager = std::make_unique<EntityManager>();
 			component_manager = std::make_unique<ComponentManager>();
@@ -17,16 +17,16 @@ namespace ECS
 		}
 
 		// delete copy constructor
-		ECSManager(const ECSManager&) = delete;
+		World(const World&) = delete;
 
 		//singleton
-		static ECSManager& get_instance()
+		static World& get_instance()
 		{
-			static ECSManager instance;
+			static World instance;
 			return instance;
 		}
 	
-		~ECSManager() = default;
+		~World() = default;
 
 		// Entities
 		Entity create_entity()

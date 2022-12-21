@@ -15,7 +15,7 @@ struct Projectile : ECS::Component
 
 	void init()
 	{
-		auto& manager = ECS::ECSManager::get_instance();
+		auto& manager = ECS::World::get_instance();
 		auto& id = this->entity_id;
 
 		manager.add_component<Transform>(id);
@@ -49,7 +49,7 @@ struct Weapon : ECS::Component
 {
 	void shoot(const Vec2 direction, const Tag tag)
 	{
-		auto& manager = ECS::ECSManager::get_instance();
+		auto& manager = ECS::World::get_instance();
 		const auto& id = manager.create_entity();
 
 		manager.add_component<Projectile>(id);

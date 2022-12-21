@@ -13,7 +13,7 @@
 void CollisionSystem::init()
 {
 	// Set system signature
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	ECS::Signature signature;
 	signature.set(manager.get_component_type<Transform>(), true);
 	signature.set(manager.get_component_type<Collider>(), true);
@@ -52,7 +52,7 @@ void CollisionSystem::update()
 {
 	if (entities.empty()) return;
 
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	// Get components
 	for (const auto& entity : entities)
 	{
@@ -168,7 +168,7 @@ void CollisionSystem::clean()
 	// Remove collision components
 	for (const auto& id : active_collisions)
 	{
-		ECS::ECSManager::get_instance().remove_component<Collision>(id);
+		ECS::World::get_instance().remove_component<Collision>(id);
 	}
 	// Clear 
 	active_collisions.clear();

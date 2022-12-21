@@ -4,7 +4,7 @@
 void EnemySystem::init()
 {
 	ECS::Signature signature;
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	signature.set(manager.get_component_type<Enemy>(), true);
 
 	manager.set_system_signature<EnemySystem>(signature);
@@ -15,7 +15,7 @@ void EnemySystem::init()
 
 void EnemySystem::update(const float delta_time)
 {
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 
 	if (entities.empty())
 		start_wave();
@@ -95,7 +95,7 @@ void EnemySystem::start_wave()
 
 void EnemySystem::spawn_enemy(Vec2 spawn_pos, Vec2 start_pos)
 {
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	auto id = manager.create_entity();
 	manager.add_component<Enemy>(id);
 

@@ -9,7 +9,7 @@
 
 void PhysicsSystem::init()
 {
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	ECS::Signature signature;
 	signature.set(manager.get_component_type<Transform>(), true);
 	signature.set(manager.get_component_type<RigidBody>(), true);
@@ -22,7 +22,7 @@ void PhysicsSystem::init()
 void PhysicsSystem::update(const float delta_time) 
 {
 	if (entities.empty()) return;
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 
 	for (auto& id : entities)
 	{
@@ -53,8 +53,8 @@ void PhysicsSystem::get_physics_data()
 	{
 		PhysicsData data;
 
-		auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(id);
-		auto& rb = ECS::ECSManager::get_instance().get_component<RigidBody>(id);
+		auto& transform = ECS::World::get_instance().get_component<Transform>(id);
+		auto& rb = ECS::World::get_instance().get_component<RigidBody>(id);
 
 		data.velocity = rb.velocity;
 		data.acceleration = rb.acceleration;

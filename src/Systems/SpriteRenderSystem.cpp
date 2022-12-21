@@ -6,7 +6,7 @@
 
 void SpriteRenderSystem::init()
 {
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	ECS::Signature signature;
 	signature.set(manager.get_component_type<Transform>(), true);
 	signature.set(manager.get_component_type<Sprite>(), true);
@@ -48,8 +48,8 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 	for (auto& entity : entities)
 	{
 		RenderData data;
-		auto const& transform = ECS::ECSManager::get_instance().get_component<Transform>(entity);
-		auto const& sprite = ECS::ECSManager::get_instance().get_component<Sprite>(entity);
+		auto const& transform = ECS::World::get_instance().get_component<Transform>(entity);
+		auto const& sprite = ECS::World::get_instance().get_component<Sprite>(entity);
 
 		data.position = transform.position;
 		data.width = sprite.width * transform.scale;

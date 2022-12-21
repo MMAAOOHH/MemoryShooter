@@ -9,7 +9,7 @@
 void DamageSystem::init()
 {
 	ECS::Signature signature;
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	signature.set(manager.get_component_type<Collision>(), true);
 	signature.set(manager.get_component_type<Health>(), true);
 
@@ -20,7 +20,7 @@ void DamageSystem::update()
 {
 	if (entities.empty()) return;
 
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 
 	// Get collision components
 	for (const auto& entity : entities)
@@ -80,7 +80,7 @@ void DamageSystem::update()
 
 void DamageSystem::damage_player(ECS::Entity id)
 {
-	auto& manager = ECS::ECSManager::get_instance();
+	auto& manager = ECS::World::get_instance();
 	auto& h_comp = manager.get_component<Health>(id);
 	h_comp.current_health -= 1;
 

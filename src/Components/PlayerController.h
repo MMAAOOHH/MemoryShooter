@@ -17,7 +17,7 @@ struct PlayerController : ECS::Component
 {
 	void init()
 	{
-		auto& manager = ECS::ECSManager::get_instance();
+		auto& manager = ECS::World::get_instance();
 
 		manager.add_component<Controller>(this->entity_id);
 		manager.add_component<Transform>(this->entity_id);
@@ -56,9 +56,9 @@ struct PlayerController : ECS::Component
 		if ((keys[SDL_SCANCODE_D] || keys[SDL_SCANCODE_RIGHT]))
 			direction.x = 1;
 
-		auto& rb = ECS::ECSManager::get_instance().get_component<RigidBody>(this->entity_id);
-		auto& t = ECS::ECSManager::get_instance().get_component<Transform>(this->entity_id);
-		auto& health = ECS::ECSManager::get_instance().get_component<Health>(this->entity_id);
+		auto& rb = ECS::World::get_instance().get_component<RigidBody>(this->entity_id);
+		auto& t = ECS::World::get_instance().get_component<Transform>(this->entity_id);
+		auto& health = ECS::World::get_instance().get_component<Health>(this->entity_id);
 
 		std::cout << health.current_health << std::endl;
 
@@ -83,7 +83,7 @@ struct PlayerController : ECS::Component
 			weapon_wait += delta_time;
 			if (weapon_wait > 0.1f)
 			{
-				ECS::ECSManager::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, Tag::player_projectile);
+				ECS::World::get_instance().get_component<Weapon>(this->entity_id).shoot({0, -700}, Tag::player_projectile);
 				weapon_wait = 0;
 			}
 		}

@@ -9,7 +9,7 @@ struct BackgroundSystem : ECS::System
 {
 	void init()
 	{
-		auto& manager = ECS::ECSManager::get_instance();
+		auto& manager = ECS::World::get_instance();
 		ECS::Signature signature;
 		signature.set(manager.get_component_type<Star>(), true);
 		manager.set_system_signature<BackgroundSystem>(signature);
@@ -32,7 +32,7 @@ struct BackgroundSystem : ECS::System
 			rand_color.b = rand() % 255;
 			rand_color.a = 255;
 
-			const auto e = ECS::ECSManager::get_instance().create_entity();
+			const auto e = ECS::World::get_instance().create_entity();
 
 			manager.add_component<Star>(e);
 			manager.get_component<Star>(e).init();
@@ -49,7 +49,7 @@ struct BackgroundSystem : ECS::System
 	{
 		for (auto& id : entities)
 		{
-			auto& transform = ECS::ECSManager::get_instance().get_component<Transform>(id);
+			auto& transform = ECS::World::get_instance().get_component<Transform>(id);
 
 			transform.position.y += 100 * delta_time;
 			if (transform.position.y > SCREEN_HEIGHT)

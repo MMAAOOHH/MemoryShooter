@@ -40,7 +40,7 @@ void Game::init(const char* name, int width, int height)
     */
 
     // ECS setup
-    auto& manager = ECS::ECSManager::get_instance();
+    auto& manager = ECS::World::get_instance();
 
     // Register Components
     manager.register_component<PlayerController>();
@@ -73,7 +73,7 @@ void Game::init(const char* name, int width, int height)
     background->init();
 
     // Player Entity
-    const auto p = ECS::ECSManager::get_instance().create_entity();
+    const auto p = ECS::World::get_instance().create_entity();
     manager.add_component<PlayerController>(p);
     player_controller = &manager.get_component<PlayerController>(p);
     player_controller->init();
@@ -169,7 +169,7 @@ void Game::update(float delta_time)
     damage_system->update();
 
     collision_system->clean();
-    ECS::ECSManager::get_instance().clean_destroyed();
+    ECS::World::get_instance().clean_destroyed();
     // Update game state
 
 }

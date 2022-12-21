@@ -20,7 +20,7 @@ struct Enemy : ECS::Component
 {
 	void init()
 	{
-		auto& manager = ECS::ECSManager::get_instance();
+		auto& manager = ECS::World::get_instance();
 		const auto id = this->entity_id;
 
 		manager.add_component<Controller>(id);
