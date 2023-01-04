@@ -12,7 +12,7 @@ enum class Tag
 
 struct Collider : ECS::Component
 {
-	Tag tag;
+	Tag tag = Tag::enemy;
 	bool active = true;
 };
 

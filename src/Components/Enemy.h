@@ -32,7 +32,7 @@ struct Enemy : ECS::Component
 		manager.add_component<Weapon>(id);
 
 		manager.get_component<Collider>(id).tag = Tag::enemy;
-		manager.get_component<Sprite>(id).color = { 255,255,255,255 };
+		manager.get_component<Sprite>(id).color = { 255,178,102,255 };
 		manager.get_component<RigidBody>(id).friction = 0;
 	}
 

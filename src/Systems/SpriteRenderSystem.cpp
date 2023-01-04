@@ -19,31 +19,30 @@ void SpriteRenderSystem::update(SDL_Renderer* renderer)
 	if (entities.empty()) return;
 
 	// Spatial grid visual debug
-	/*
-	int size = 4;
-	for (int i = 0; i < size; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-		{
-			SDL_Rect cell;
-			float width = SCREEN_WIDTH / size;
-			float height = SCREEN_WIDTH / size;
+	//int size = 4;
+	//for (int i = 0; i < size; ++i)
+	//{
+	//	for (int j = 0; j < size; ++j)
+	//	{
+	//		SDL_Rect cell;
+	//		float width = SCREEN_WIDTH / size;
+	//		float height = SCREEN_WIDTH / size;
 
-			float x = width * i;
-			float y = height * j;
+	//		float x = width * i;
+	//		float y = height * j;
 
-			Vec2 center;
-			cell.x = x;
-			cell.y = y;
+	//		Vec2 center;
+	//		cell.x = x;
+	//		cell.y = y;
 
-			cell.w = width;
-			cell.h = height;
+	//		cell.w = width;
+	//		cell.h = height;
 
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-			SDL_RenderDrawRect(renderer, &cell);
-		}
-	}
-	*/
+	//		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	//		SDL_RenderDrawRect(renderer, &cell);
+	//	}
+	//}
+	
 
 	for (auto& entity : entities)
 	{

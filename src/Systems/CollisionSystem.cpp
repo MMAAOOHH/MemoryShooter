@@ -6,6 +6,7 @@
 
 #include "../ECS/ECS.h"
 #include "../Components/Transform.h"
+#include "../Components/Sprite.h"
 #include "../Common.h"
 #include "../ECS/Types.h"
 #include "../Math.h"
@@ -106,6 +107,7 @@ void CollisionSystem::update()
 
 				// Skip self id
 				if (id_a == id_b) continue;
+
 
 				const Tag& a_tag = a.second.tag;
 				const Tag& b_tag = b.second.tag;

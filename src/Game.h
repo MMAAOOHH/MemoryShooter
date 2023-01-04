@@ -28,14 +28,22 @@ public:
     void clean();
     void run();
 
+    int score = 0;
+    std::string score_string;
+
 private:
 
     void handle_events();
     void update(float delta_time);
     void render();
+    void render_text(std::string text, int x, int y);
 
     SDL_Window* window;
     SDL_Renderer* renderer;
+    TTF_Font* font;
+    SDL_Texture* text_texture;
+    SDL_Rect text_rect;
+
     bool is_running = false;
 
     State current_state = pause;

@@ -20,4 +20,6 @@ struct DamageSystem : ECS::System
 	std::vector<Collision> collision_components;
 	std::vector<Health> health_components;
 	std::vector<ECS::Entity> to_damage;
+
+	int kill_count = 0;
 };

@@ -35,7 +35,7 @@ struct Projectile : ECS::Component
 		if (tag == Tag::enemy_projectile)
 		{
 			t.scale *= 0.4f;
-			manager.get_component<Sprite>(id).color = { 255,255 ,255,255 };
+			manager.get_component<Sprite>(id).color = { 255,178,102,255 };
 		}
 		else
 		{

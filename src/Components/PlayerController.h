@@ -60,7 +60,7 @@ struct PlayerController : ECS::Component
 		auto& t = ECS::World::get_instance().get_component<Transform>(this->entity_id);
 		auto& health = ECS::World::get_instance().get_component<Health>(this->entity_id);
 
-		std::cout << health.current_health << std::endl;
+		//std::cout << health.current_health << std::endl;
 
 		// TODO: make better
 		// Screen wrap

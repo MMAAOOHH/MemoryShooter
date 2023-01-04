@@ -1,11 +1,14 @@
 #include "Game.h"
 
+#include <random>
 #include <string>
 
 #include "Components/Controller.h"
 #include "Components/PlayerController.h"
 #include "Components/Enemy.h"
 #include "Components/Star.h"
+
+#define FONT_SIZE 24
 
 bool keys[SDL_NUM_SCANCODES]{ false };
 float DEFAULT_SPRITE_W = 32;
@@ -31,15 +34,25 @@ void Game::init(const char* name, int width, int height)
     }
 
     
-    /*
+    
     // Initilize TTF
-    if (TTF_Init() == -0)
+    if (TTF_Init() != 0)
     {
         std::cout << "TTF init failed" << std::endl;
     }
+    // Text
+	font = TTF_OpenFont("./res/roboto.ttf", FONT_SIZE);
+    /*
+    SDL_Surface* text_surface = TTF_RenderText_Solid(font, "test", {255,0,0,255});
+    text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+
+    text_rect = { 20, 20, text_surface->w, text_surface->h };
+    SDL_FreeSurface(text_surface);
+    TTF_CloseFont(font);
     */
 
     // ECS setup
+    // ---------
     auto& manager = ECS::World::get_instance();
 
     // Register Components
@@ -84,7 +97,8 @@ void Game::clean()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
-    //TTF_Quit();
+    TTF_CloseFont(font);
+    TTF_Quit();
     SDL_Quit();
 
     window = nullptr;
@@ -167,18 +181,40 @@ void Game::update(float delta_time)
     physics_system->update(delta_time);
     collision_system->update();
     damage_system->update();
-
     collision_system->clean();
+
+    // todo: change temp solution
+    score += damage_system->kill_count;
+
     ECS::World::get_instance().clean_destroyed();
-    // Update game state
+    //TODO: Update game state
 
 }
 void Game::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
+    SDL_SetRenderDrawColor(renderer, 0, 9, 15, 1);
     SDL_RenderClear(renderer);
 
     render_system->update(renderer);
+    render_text("Score: " + std::to_string(score), 10, 10);
 
+    SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
     SDL_RenderPresent(renderer);
+}
+
+void Game::render_text(std::string text, int x, int y)
+{
+    SDL_Surface* surface;
+    SDL_Texture* texture;
+    SDL_Rect rect;
+    const char* t = text.c_str();
+    surface = TTF_RenderText_Solid(font, t, { 255,255,255,255 });
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    rect.w = surface->w;
+    rect.h = surface->h;
+    rect.x = x;
+    rect.y = y;
+    SDL_FreeSurface(surface);
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+    SDL_DestroyTexture(texture);
 }

@@ -18,6 +18,7 @@ void DamageSystem::init()
 
 void DamageSystem::update()
 {
+	kill_count = 0;
 	if (entities.empty()) return;
 
 	auto& manager = ECS::World::get_instance();
@@ -68,6 +69,7 @@ void DamageSystem::update()
 
 		if (h_comp.current_health <= 0)
 		{
+			kill_count++;
 			manager.entities_to_remove.push_back(id);
 		}
 	}
